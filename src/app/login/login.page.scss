@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+
+  .icon {
+    width: 74px;
+    height: 64px;
+    margin-bottom: 16px;
+  }
+
+  .app-name {
+    width: 128px;
+    height: 64px;
+  }
+
+  ion-img {
+    flex: 1;
+  }
+}
+.login-form {
+  width: 90%;
+  margin: auto;
+  .button-container {
+    margin-top: 40px;
+  }
+
+  ion-button {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}
+
