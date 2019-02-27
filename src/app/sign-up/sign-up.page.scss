@@ -8,6 +8,16 @@ ion-img {
   display: inline-block;
 }
 
+.title{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: 16px;
+}
+
 .slide-container {
   display: flex;
   flex-direction: column;

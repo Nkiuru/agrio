@@ -19,6 +19,7 @@ export class SignUpPage implements OnInit {
   password = '';
   passwordConfirm = '';
   username = '';
+  validPassword = false;
 
   constructor(private user: UserService, private loginService: LoginService, private router: Router) {
   }
@@ -43,6 +44,10 @@ export class SignUpPage implements OnInit {
     }, error => {
       console.log(error);
     });
+  }
+
+  next() {
+    this.slider.slideNext().catch(err => console.log(err));
   }
 
   checkPasswords() {
