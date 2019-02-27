@@ -1,0 +1,27 @@
+ion-header {
+  text-align: center;
+}
+
+ion-img {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+}
+
+.slide-container {
+  display: flex;
+  flex-direction: column;
+}
+
+ion-slides {
+  width: 90%;
+}
+
+ion-list {
+  width: 100%;
+}
+
+ion-button{
+  margin-bottom: 48px;
+}
+

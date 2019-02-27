@@ -28,4 +28,8 @@ export class LoginPage implements OnInit {
     }
   }
 
+  signUp() {
+    this.router.navigate(['/sign-up']).catch(err => console.log(err));
+  }
+
 }

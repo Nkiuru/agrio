@@ -1,0 +1,84 @@
+<ion-header no-border>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-img src="../../assets/icon/agrioIcon.svg"></ion-img>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+        <ion-slides pager="true" (ionSlideDidChange)="updateCard()">
+
+            <ion-slide class="slide-container">
+                <app-info-card [infoText]="text" [type]="infoType"></app-info-card>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" position="floating">first name</ion-label>
+                        <ion-input
+                                [(ngModel)]="lName"
+                                name="lName"
+                                type="text"
+                                minlength="2"
+                                required>
+                        </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary" position="floating">last name</ion-label>
+                        <ion-input
+                                [(ngModel)]="fName"
+                                name="fName"
+                                type="text"
+                                minlength="2"
+                                required>
+                        </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary" position="floating">email</ion-label>
+                        <ion-input
+                                [(ngModel)]="email"
+                                name="email"
+                                type="email"
+                                pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+                                required>
+                        </ion-input>
+                    </ion-item>
+                </ion-list>
+                <ion-button expand="full" shape="round" fill="outline" type="button">Next</ion-button>
+            </ion-slide>
+
+            <ion-slide class="slide-container">
+                <app-info-card [infoText]="text" [type]="infoType"></app-info-card>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" position="floating">username</ion-label>
+                        <ion-input
+                                [(ngModel)]="username"
+                                name="username"
+                                type="text"
+                                (ionBlur)="checkUsername(username)"
+                                minlength="3"
+                                required>
+                        </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary" position="floating">password</ion-label>
+                        <ion-input [(ngModel)]="password" name="password" type="password"
+                                   minlength="5" required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary" position="floating">confirm password</ion-label>
+                        <ion-input [(ngModel)]="passwordConfirm" (keyup)="checkPasswords()" name="password"
+                                   type="password"
+                                   minlength="5" required></ion-input>
+                    </ion-item>
+                </ion-list>
+                <ion-button expand="full" shape="round" fill="outline" type="submit" [disabled]="!registerForm.valid">
+                    Create Account
+                </ion-button>
+            </ion-slide>
+
+        </ion-slides>
+    </form>
+</ion-content>
