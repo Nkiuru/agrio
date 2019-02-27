@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class LoginService {
-  baseUrl = 'https://media.mw.metropolia.fi/wbma/';
+  baseUrl = 'http://media.mw.metropolia.fi/wbma/';
   loggedIn = localStorage.getItem('token') !== null;
 
   constructor(private http: HttpClient) {
