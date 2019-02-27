@@ -6,10 +6,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginService {
   baseUrl = 'http://media.mw.metropolia.fi/wbma/';
-  loggedIn = localStorage.getItem('token') !== null;
+  isLoggedIn = localStorage.getItem('token') !== null;
+  redirectUrl: string;
 
   constructor(private http: HttpClient) {
-
   }
 
   logIn(username: string, password: string) {
@@ -22,6 +22,6 @@ export class LoginService {
 
   logout() {
     localStorage.removeItem('token');
-    this.loggedIn = false;
+    this.isLoggedIn = false;
   }
 }
