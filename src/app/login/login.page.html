@@ -1,23 +1,55 @@
 <ion-content padding>
-    <div class="wrapper">
-        <ion-img class="icon" src="../../assets/icon/agrioIcon.svg"></ion-img>
-        <ion-img class="app-name" src="../../assets/icon/agrio.svg"></ion-img>
-    </div>
+  <div class="wrapper">
+    <ion-img class="icon" src="../../assets/icon/agrioIcon.svg"></ion-img>
+    <ion-img class="app-name" src="../../assets/icon/agrio.svg"></ion-img>
+  </div>
 
-    <form (ngSubmit)="submit()" class="login-form" #loginForm="ngForm">
-        <ion-list>
-            <ion-item>
-                <ion-label color="primary" position="floating">Username</ion-label>
-                <ion-input [(ngModel)]="username" name="username" type="text" required></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label color="primary" position="floating">Password</ion-label>
-                <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
-            </ion-item>
-            <div class="button-container">
-                <ion-button expand="full" shape="round" type="submit" [disabled]="!loginForm.valid">Login</ion-button>
-                <ion-button expand="full" shape="round" fill="outline" type="button" (click)="signUp()">Register</ion-button>
-            </div>
-        </ion-list>
-    </form>
+  <form (ngSubmit)="submit()" class="login-form" #loginForm="ngForm">
+    <ion-list>
+
+      <ion-item>
+        <ion-label color="primary" position="floating">Username</ion-label>
+        <ion-input
+          [(ngModel)]="username"
+          name="username"
+          type="text"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary" position="floating">Password</ion-label>
+        <ion-input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <div class="button-container">
+        <ion-button
+          mode="ios"
+          strong="false"
+          expand="block"
+          shape="round"
+          type="submit"
+          margin-vertical
+          [disabled]="!loginForm.valid"
+          >LOGIN</ion-button
+        >
+        <ion-button
+          mode="ios"
+          expand="block"
+          shape="round"
+          fill="outline"
+          margin-vertical
+          type="button"
+          (click)="signUp()"
+          >SIGN UP</ion-button
+        >
+      </div>
+
+    </ion-list>
+  </form>
 </ion-content>
