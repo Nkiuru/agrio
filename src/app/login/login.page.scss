@@ -1,3 +1,8 @@
+
+.page-padding {
+  padding: 0 16px;
+}
+
 .wrapper {
   display: flex;
   justify-items: center;
@@ -20,16 +25,11 @@
     flex: 1;
   }
 }
+
 .login-form {
-  width: 90%;
-  margin: auto;
+
   .button-container {
     margin-top: 40px;
-  }
-
-  ion-button {
-    margin-top: 16px;
-    margin-bottom: 16px;
   }
 }
 
