@@ -22,6 +22,7 @@ export class LoginPage implements OnInit {
       this.loginService.logIn(this.username, this.password).subscribe((data) => {
         console.log(data);
         localStorage.setItem('token', data.token);
+        localStorage.setItem('user', data.user);
         this.loginService.isLoggedIn = true;
         this.router.navigate(['']).catch(err => console.log(err));
       }, error => console.log(error));
