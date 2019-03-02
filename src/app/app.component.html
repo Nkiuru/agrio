@@ -1,3 +1,24 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start">
+
+    <ion-content>
+
+      <div>
+        <img src="../assets/icon/agrioIcon.svg">
+        <img src="../assets/icon/agrio.svg">
+      </div>
+
+      <ion-list>
+        <ion-item lines="none">
+          <ion-icon name="log-out" slot="start"></ion-icon>
+          <ion-label>
+            LOGOUT
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>
