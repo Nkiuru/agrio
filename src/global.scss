@@ -16,3 +16,43 @@ ion-button {
   letter-spacing: 3px;
   margin: 16px 0;
 }
+
+.my-side-menu {
+
+  .logo-wrapper {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 20px 0px -16px #748480;
+
+    .agrio-logo {
+      position: absolute;
+      top: 105px;
+      width: 60px;
+    }
+
+    .agrio-name {
+      position: absolute;
+      top: 170px;
+      width: 100px;
+    }
+  }
+
+  .logout-btn {
+    font-weight: 500;
+  }
+
+  .agrio-edition {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    letter-spacing: 3px;
+    font-size: 12px;
+    margin: 0;
+    color: #005944;
+  }
+}

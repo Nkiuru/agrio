@@ -1,21 +1,23 @@
 <ion-app>
-  <ion-menu side="start">
+  <ion-menu side="start" class="my-side-menu">
 
     <ion-content>
 
-      <div>
-        <img src="../assets/icon/agrioIcon.svg">
-        <img src="../assets/icon/agrio.svg">
+      <div class="logo-wrapper">
+        <img class="agrio-logo" src="../assets/icon/agrioIcon.svg">
+        <img class="agrio-name" src="../assets/icon/agrio.svg">
       </div>
 
       <ion-list>
-        <ion-item lines="none">
-          <ion-icon name="log-out" slot="start"></ion-icon>
-          <ion-label>
+        <ion-item lines="none" button>
+          <ion-icon name="log-out" slot="start" color="primary" style="transform:rotateZ(180deg)"></ion-icon>
+          <ion-label color="primary" class="logout-btn">
             LOGOUT
           </ion-label>
         </ion-item>
       </ion-list>
+
+      <p class="agrio-edition">agrio metropolia edition</p>
 
     </ion-content>
   </ion-menu>
