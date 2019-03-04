@@ -73,4 +73,16 @@ export class SignUpPage implements OnInit {
     }, error => console.log(error));
   }
 
+  showConfirmTip(){
+    this.text = 'Confirm your password to make sure it is what you intended.';
+  }
+
+  showEmailTip(){
+    this.text = 'We will use your email address to send you a confirmation link to verify your account.It will also be used to contact you if necessary.';
+  }
+
+  showPasswordTip(){
+    this.text = 'Password should be at least 6 (six) characters long and contain letters and numbers.';
+  }
+
 }

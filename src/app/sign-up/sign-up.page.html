@@ -42,6 +42,7 @@
                                 [(ngModel)]="email"
                                 name="email"
                                 type="email"
+                                (ionFocus)="showEmailTip()"
                                 pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
                                 required>
                         </ion-input>
@@ -67,13 +68,13 @@
                     <ion-item>
                         <ion-label color="primary" position="floating">password</ion-label>
                         <ion-input [(ngModel)]="password" name="password" type="password"
-                                   minlength="5" required></ion-input>
+                                   minlength="6" (ionFocus)="showPasswordTip()" required></ion-input>
                     </ion-item>
                     <ion-item>
                         <ion-label color="primary" position="floating">confirm password</ion-label>
-                        <ion-input [(ngModel)]="passwordConfirm" (keyup)="checkPasswords()" name="password"
+                        <ion-input [(ngModel)]="passwordConfirm" (keyup)="checkPasswords()" (ionFocus)="showConfirmTip()" name="password"
                                    type="password"
-                                   minlength="5" required></ion-input>
+                                   minlength="6" required></ion-input>
                     </ion-item>
                 </ion-list>
                 <ion-button expand="full" shape="round" fill="outline" type="submit" [disabled]="!registerForm.valid">
