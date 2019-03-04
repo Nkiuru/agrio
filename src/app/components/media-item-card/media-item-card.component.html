@@ -14,8 +14,9 @@
         </ion-text>
       </span>
 
-      <span class="media-likes">
+      <span class="media-likes" (click)="onLike()">
         <svg
+          [ngClass]="{'heart-solid': postLiked}"
           class="heart-outline"
           width="20"
           height="17"

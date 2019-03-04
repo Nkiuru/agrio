@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MediaItemCardComponent implements OnInit {
 
+  postLiked: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onLike() {
+    console.log('like clicked');
+    this.postLiked = !this.postLiked;
   }
 
 }
