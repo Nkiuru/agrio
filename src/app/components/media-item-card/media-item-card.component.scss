@@ -42,7 +42,7 @@
         h2 {
           font-size: 18px;
           font-weight: 300;
-          width: calc(100vw - 230px);
+          width: calc(100vw - 233px);
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
@@ -63,8 +63,8 @@
           fill: white;
           stroke: var(--ion-color-title);
           stroke-width: 1px;
-          width: 17px;
-          height: 20px;
+          width: 22px;
+          height: 100%;
 
           transition:
             fill 200ms ease-in-out,
@@ -73,8 +73,8 @@
 
         p {
           margin: 0;
-          margin-left: 8px;
-          font-size: 12px;
+          margin-left: 4px;
+          font-size: 14px;
         }
       }
 
@@ -84,12 +84,13 @@
         align-items: center;
 
         img {
+          width: 19px;
         }
 
         p {
           margin: 0;
-          margin-left: 8px;
-          font-size: 12px;
+          margin-left: 4px;
+          font-size: 14px;
         }
       }
     }
