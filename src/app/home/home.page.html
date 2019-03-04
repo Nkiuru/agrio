@@ -1,5 +1,8 @@
 <app-toolbar [(searchTerm)]="search" [showSearch]=true></app-toolbar>
-
 <ion-content padding color="primary">
   <p>Search term: {{ search }}</p>
+  <app-welcome
+    *ngIf="!welcomeDismissed"
+    (dismissedWelcome)="onWelcomeDismissed($event)"
+  ></app-welcome>
 </ion-content>

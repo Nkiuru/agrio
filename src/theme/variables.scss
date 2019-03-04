@@ -66,7 +66,23 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
+  --ion-color-title: #003025;
+  --ion-color-title-rgb: 0,48,37;
+
+  --ion-color-text: #5E6664;
+  --ion-color-text-rgb: 0,48,37;
+
   --ion-font-family: 'Rubik', sans-serif;
+}
+
+.ion-color-title {
+  --ion-color-base: #003025;
+  --ion-color-base-rgb: 94,102,100;
+}
+
+.ion-color-text {
+  --ion-color-base: #5E6664;
+  --ion-color-base-rgb: 0,48,37;
 }
 
 ion-button {

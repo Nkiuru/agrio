@@ -9,6 +9,7 @@ import { Platform, ToastController } from '@ionic/angular';
 export class HomePage {
   subscription: any;
   search: string = '';
+  welcomeDismissed: boolean = (localStorage.getItem('welcomeDismissed') === 'true');
 
   constructor(private platform: Platform, private toastCtrl: ToastController) {
   }
@@ -37,5 +38,10 @@ export class HomePage {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  onWelcomeDismissed(dismissed: boolean) {
+    this.welcomeDismissed = dismissed;
+    localStorage.setItem('welcomeDismissed', String(dismissed));
   }
 }
