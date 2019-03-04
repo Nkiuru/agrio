@@ -7,7 +7,9 @@ import { Platform, ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss']
 })
 export class HomePage {
+
   subscription: any;
+  welcomeDismissed: boolean = (localStorage.getItem('welcomeDismissed') === 'true');
 
   constructor(private platform: Platform, private toastCtrl: ToastController) {
   }
@@ -36,5 +38,10 @@ export class HomePage {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  onWelcomeDismissed(dismissed: boolean) {
+    this.welcomeDismissed = dismissed;
+    localStorage.setItem('welcomeDismissed', String(dismissed));
   }
 }
