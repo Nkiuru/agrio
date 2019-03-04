@@ -8,6 +8,7 @@ import { Platform, ToastController } from '@ionic/angular';
 })
 export class HomePage {
   subscription: any;
+  search: string = '';
 
   constructor(private platform: Platform, private toastCtrl: ToastController) {
   }
