@@ -10,7 +10,7 @@
     <form (ngSubmit)="submit()" class="login-form" #loginForm="ngForm">
       <ion-list>
 
-        <ion-item>
+        <ion-item #uname>
           <ion-label color="primary" position="floating">Username</ion-label>
           <ion-input
             [(ngModel)]="username"
@@ -20,7 +20,7 @@
           ></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item #passwd>
           <ion-label color="primary" position="floating">Password</ion-label>
           <ion-input
             [(ngModel)]="password"
