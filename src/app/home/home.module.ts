@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
 import { ToolbarModule } from '../toolbar/toolbar.module';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { MediaItemCardComponent } from '../components/media-item-card/media-item-card.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
     ]),
     ToolbarModule,
   ],
-  declarations: [HomePage, WelcomeComponent]
+  declarations: [HomePage, WelcomeComponent, MediaItemCardComponent]
 })
 export class HomePageModule {}
