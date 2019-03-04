@@ -24,7 +24,6 @@ ion-button {
     position: relative;
     display: flex;
     justify-content: center;
-    box-shadow: 0 20px 0px -16px #748480;
 
     .agrio-logo {
       position: absolute;
@@ -37,6 +36,18 @@ ion-button {
       top: 170px;
       width: 100px;
     }
+  }
+
+  .logo-wrapper::after {
+    content: '';
+    position: absolute;
+    z-index: 10;
+    height: 2px;
+    left: 16px;
+    right: 16px;
+    bottom: -1px;
+    border-radius: 5px;
+    background-color: #E3E7E6;
   }
 
   .logout-btn {
