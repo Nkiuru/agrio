@@ -11,3 +11,18 @@ ion-img.icon {
 ion-menu-button {
   color: #74D0BB;
 }
+.searchContainer {
+  ion-input {
+    --background:#1B705C;
+    border-radius: 24px;
+    border: 2px solid #004736;
+  }
+  ion-icon {
+    color: #004736;
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+  }
+  padding: 0px 16px 16px 16px;
+  background-color: #005944;
+}
