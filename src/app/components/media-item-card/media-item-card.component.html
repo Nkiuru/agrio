@@ -7,16 +7,18 @@
 
       <span class="user-info">
         <ion-text color="title">
-          <h2>John Doe</h2>
+          <h2>
+            {{ postData?.username ? postData?.fullname : 'No Full Name' }}
+          </h2>
         </ion-text>
         <ion-text>
-          <p>username</p>
+          <p>{{ postData?.username ? postData?.username : 'nousername' }}</p>
         </ion-text>
       </span>
 
       <span class="media-likes" (click)="onLike()">
         <svg
-          [ngClass]="{'heart-solid': postLiked}"
+          [ngClass]="{ 'heart-solid': postLiked }"
           class="heart-outline"
           width="20"
           height="17"
@@ -43,7 +45,9 @@
     </section>
 
     <ion-text color="title">
-      <h2 class="media-title">Post title</h2>
+      <h2 class="media-title">
+        {{ postData?.title ? postData?.title : 'No post title' }}
+      </h2>
     </ion-text>
 
     <ion-text color="text">
@@ -51,9 +55,7 @@
         class="media-description"
         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
       >
-        Post description lorem ipsum. Post description lorem ipsum. Post
-        description lorem ipsum. Post description lorem ipsum. Post description
-        lorem ipsum. Post description lorem ipsum.
+        {{ postData?.description ? postData?.description : 'No description' }}
       </p>
     </ion-text>
   </section>

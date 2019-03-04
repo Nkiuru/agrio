@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-media-item-card',
@@ -7,12 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MediaItemCardComponent implements OnInit {
 
+  @Input() postData: any;
+
   postLiked = false;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onLike() {
     console.log('like clicked');
