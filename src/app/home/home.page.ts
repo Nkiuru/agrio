@@ -17,7 +17,7 @@ export class HomePage {
   ionViewDidEnter() {
     let lastTimeBackPress = 0;
     let timePeriodToExit = 2000;
-    this.subscription = this.platform.backButton.subscribe(() => {
+    this.subscription = this.platform.backButton.subscribeWithPriority(9999,() => {
       if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
         navigator['app'].exitApp();
       } else {
