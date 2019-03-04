@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { StatusBarService } from '../status-bar.service';
 
 @Component({
   selector: 'app-tabs',
@@ -8,12 +9,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class TabsPage {
 
-  constructor(private statusBar: StatusBar) {}
+  constructor(private statusBar: StatusBarService) {}
 
   ionViewWillEnter() {
-    // switch status bar color to white icons and green background
-    this.statusBar.styleLightContent();
-    this.statusBar.backgroundColorByHexString('#005944');
+    this.statusBar.setToDark();
   }
 
 }
