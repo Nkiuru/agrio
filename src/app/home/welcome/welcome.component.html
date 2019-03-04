@@ -1,0 +1,36 @@
+<div
+  #card
+  class="card"
+  [ngClass]="{ dismiss: dismissed }"
+  (transitionend)="onTransitionEnd($event)"
+>
+  <img class="logo" src="../../../assets/icon/agrioIcon.svg" />
+  <ion-text color="title">
+    <h2 class="title">Welcome to agrio!</h2>
+  </ion-text>
+  <ion-text color="text">
+    <p class="text">
+      Agrio will help you make more sustainable choises when you are shopping
+      for food by directly connecting you and farmers.
+    </p>
+  </ion-text>
+  <ion-text color="text">
+    <p class="text">
+      You will know where the food you’re eating is coming from and will end up
+      eating better food while reducing the impact on mother nature.
+    </p>
+  </ion-text>
+
+  <ion-button
+    class="dismiss-btn"
+    shape="round"
+    mode="md"
+    color="secondary"
+    fill="none"
+    expand="block"
+    type="button"
+    (click)="dismissed = !dismissed"
+  >
+    OK, GOT IT!
+  </ion-button>
+</div>

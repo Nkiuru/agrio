@@ -7,7 +7,9 @@ import { Platform, ToastController } from '@ionic/angular';
   styleUrls: ['home.page.scss']
 })
 export class HomePage {
+
   subscription: any;
+  welcomeDismissed = false;
 
   constructor(private platform: Platform, private toastCtrl: ToastController) {
   }
@@ -36,5 +38,9 @@ export class HomePage {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  onWelcomeDismissed(dismissed: boolean) {
+    this.welcomeDismissed = dismissed;
   }
 }
