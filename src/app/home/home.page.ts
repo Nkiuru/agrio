@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Platform, ToastController, Events } from '@ionic/angular';
 import { MediaService } from '../media.service';
 import { Post } from '../interfaces/post';
@@ -9,7 +9,7 @@ import { EVENT_MEDIA_ARRAY_UPDATE, EVENT_MEDIA_SERVICE_INIT, EVENT_PROFILE_PIC_A
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   subscription: any;
   search = '';
   welcomeDismissed: boolean =
@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter() {
     let lastTimeBackPress = 0;
-    let timePeriodToExit = 2000;
+    const timePeriodToExit = 2000;
     this.subscription = this.platform.backButton.subscribeWithPriority(
       9999,
       () => {
@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
   }
 
   async showToast() {
-    let toast = await this.toastCtrl.create({
+    const toast = await this.toastCtrl.create({
       message: 'Press back again to exit App',
       duration: 3000,
       position: 'bottom'
@@ -69,4 +69,10 @@ export class HomePage implements OnInit {
     this.welcomeDismissed = dismissed;
     localStorage.setItem('welcomeDismissed', String(dismissed));
   }
+
+  ngOnDestroy() {
+    this.event.unsubscribe(EVENT_MEDIA_ARRAY_UPDATE);
+    this.event.unsubscribe(EVENT_PROFILE_PIC_ARRAY_UPDATE);
+  }
+
 }
