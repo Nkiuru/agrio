@@ -7,6 +7,6 @@
     (dismissedWelcome)="onWelcomeDismissed($event)"
   ></app-welcome>
 
-  <app-media-item-card></app-media-item-card>
+  <app-media-item-card *ngFor="let post of postArray"></app-media-item-card>
 
 </ion-content>

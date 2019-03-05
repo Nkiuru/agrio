@@ -1,30 +1,54 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Platform, ToastController } from '@ionic/angular';
+import { MediaService } from '../media.service';
+import { Post } from '../interfaces/post';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage {
+export class HomePage implements OnInit {
   subscription: any;
-  search: string = '';
-  welcomeDismissed: boolean = (localStorage.getItem('welcomeDismissed') === 'true');
+  search = '';
+  welcomeDismissed: boolean =
+    localStorage.getItem('welcomeDismissed') === 'true';
 
-  constructor(private platform: Platform, private toastCtrl: ToastController) {
+  postArray: Post[];
+
+  constructor(
+    private platform: Platform,
+    private toastCtrl: ToastController,
+    private media: MediaService
+  ) {}
+
+  ngOnInit() {
+    this.media.getMediaInSegments().subscribe(
+      res => {
+        console.log(res);
+        this.postArray = res;
+      },
+      err => {
+        console.log(err.message);
+        console.log(err);
+      }
+    );
   }
 
   ionViewDidEnter() {
     let lastTimeBackPress = 0;
     let timePeriodToExit = 2000;
-    this.subscription = this.platform.backButton.subscribeWithPriority(9999,() => {
-      if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
-        navigator['app'].exitApp();
-      } else {
-        this.showToast().catch(err => console.log(err));
-        lastTimeBackPress = new Date().getTime();
+    this.subscription = this.platform.backButton.subscribeWithPriority(
+      9999,
+      () => {
+        if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+          navigator['app'].exitApp();
+        } else {
+          this.showToast().catch(err => console.log(err));
+          lastTimeBackPress = new Date().getTime();
+        }
       }
-    });
+    );
   }
 
   ionViewWillLeave() {
