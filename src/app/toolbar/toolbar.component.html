@@ -10,8 +10,8 @@
             <ion-img class="icon" src="../../assets/icon/agrioIconToolbar.svg"></ion-img>
         </ion-buttons>
     </ion-toolbar>
-    <div class="searchContainer">
-        <ion-input color="primary-shade" type="text" placeholder="search" *ngIf="showSearch" [(ngModel)]="searchTerm"
+    <div class="searchContainer" *ngIf="showSearch">
+        <ion-input color="primary-shade" type="text" placeholder="search" [(ngModel)]="searchTerm"
                    (ngModelChange)="update()">
             <ion-icon name="search"></ion-icon>
         </ion-input>
