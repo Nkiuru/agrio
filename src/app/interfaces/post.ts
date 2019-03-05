@@ -12,4 +12,7 @@ export interface Post {
   time_added: string;
   screenshot?: string;
   thumbnails?: Thumbnail;
+  username?: string;
+  full_name?: string;
+  profile_pic_url?: string;
 }
