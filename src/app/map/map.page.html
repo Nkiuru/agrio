@@ -1,5 +1,6 @@
 <app-toolbar [(searchTerm)]="search" [showSearch]=true></app-toolbar>
 
-<ion-content color="primary" padding>
-
+<ion-content padding style="background-color: #005944">
+    <div id="map_canvas"></div>
+    <ion-button (click)="onButtonClick()">Locate</ion-button>
 </ion-content>
