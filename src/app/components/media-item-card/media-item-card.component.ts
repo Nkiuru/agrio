@@ -1,4 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Post } from 'src/app/interfaces/post';
+import { MediaService } from 'src/app/media.service';
+import { User } from 'src/app/interfaces/user';
+import { API_UPLOADS } from '../../app-constants';
 
 @Component({
   selector: 'app-media-item-card',
@@ -6,18 +10,48 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./media-item-card.component.scss']
 })
 export class MediaItemCardComponent implements OnInit {
+  @Input() postData: Post;
 
-  @Input() postData: any;
-
+  uploadsUrl = API_UPLOADS;
+  postImageUrl: string;
   postLiked = false;
 
-  constructor() { }
+  constructor(private media: MediaService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Build the url to use in CSS attribute.
+    this.postImageUrl = `url(${this.uploadsUrl}${this.postData.filename})`;
+
+    // Fetch user details for this post from server and append them to postData
+    // object.
+    this.media.getUserDetails(this.postData.user_id).subscribe((res: User) => {
+      console.log(res);
+      const updatedPostData = {
+        ...this.postData,
+        ...res
+      };
+      this.postData = updatedPostData;
+    });
+
+    let profilePicFilename = this.media.getProfilePic(this.postData.user_id);
+    if (profilePicFilename) {
+      profilePicFilename = this.uploadsUrl + profilePicFilename;
+      const postDataWithProfilePic = {
+        ...this.postData,
+        profile_pic_url: profilePicFilename
+      };
+      this.postData = postDataWithProfilePic;
+    }
+  }
 
   onLike() {
     console.log('like clicked');
     this.postLiked = !this.postLiked;
   }
 
+  getProfilePic(userid: number) {
+    const url = this.uploadsUrl + this.media.getProfilePic(userid);
+    console.log('profile pic url: ', url);
+    return url;
+  }
 }
