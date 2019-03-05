@@ -1,4 +1,4 @@
-<app-toolbar [(searchTerm)]="search" [showSearch]=true></app-toolbar>
+<app-toolbar [(searchTerm)]="search" [showSearch]="true"></app-toolbar>
 <ion-content padding color="primary">
   <p>Search term: {{ search }}</p>
 
@@ -7,6 +7,8 @@
     (dismissedWelcome)="onWelcomeDismissed($event)"
   ></app-welcome>
 
-  <app-media-item-card *ngFor="let post of postArray"></app-media-item-card>
-
+  <app-media-item-card
+    *ngFor="let post of postArray"
+    [postData]="post"
+  ></app-media-item-card>
 </ion-content>

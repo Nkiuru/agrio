@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, ToastController } from '@ionic/angular';
+import { Platform, ToastController, Events } from '@ionic/angular';
 import { MediaService } from '../media.service';
 import { Post } from '../interfaces/post';
+import { EVENT_MEDIA_ARRAY_UPDATE, EVENT_MEDIA_SERVICE_INIT, EVENT_PROFILE_PIC_ARRAY_UPDATE } from '../app-constants';
 
 @Component({
   selector: 'app-home',
@@ -15,24 +16,24 @@ export class HomePage implements OnInit {
     localStorage.getItem('welcomeDismissed') === 'true';
 
   postArray: Post[];
+  profilePicArray: Post[];
 
   constructor(
     private platform: Platform,
     private toastCtrl: ToastController,
-    private media: MediaService
-  ) {}
+    private media: MediaService,
+    private event: Events
+  ) {
+    event.subscribe(EVENT_MEDIA_ARRAY_UPDATE, array => {
+      this.postArray = array;
+    });
+    event.subscribe(EVENT_PROFILE_PIC_ARRAY_UPDATE, array => {
+      this.profilePicArray = array;
+    });
+  }
 
   ngOnInit() {
-    this.media.getMediaInSegments().subscribe(
-      res => {
-        console.log(res);
-        this.postArray = res;
-      },
-      err => {
-        console.log(err.message);
-        console.log(err);
-      }
-    );
+    this.media.initData();
   }
 
   ionViewDidEnter() {
