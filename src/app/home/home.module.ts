@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
-import { ToolbarModule } from '../toolbar/toolbar.module';
+import { ToolbarModule } from '../components/toolbar/toolbar.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MediaItemCardComponent } from '../components/media-item-card/media-item-card.component';
 
