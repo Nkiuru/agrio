@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Sello",
+    "position": {
+      "lat": 60.217,
+      "lgn": 24.81
+    },
+    "description": "Shopping center Sello"
+  },
+  {
+    "title": "REDI",
+    "position": {
+      "lat": 60.187,
+      "lgn": 24.98
+    },
+    "description": "Shopping maze REDI"
+  }
+]
