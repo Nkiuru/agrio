@@ -10,7 +10,7 @@ import {
   GoogleMapsEvent,
   Marker,
   GoogleMapsAnimation,
-  MyLocation
+  MyLocation, Environment
 } from '@ionic-native/google-maps';
 
 @Component({
@@ -22,11 +22,15 @@ export class MapPage implements OnInit {
   search:string;
   map: GoogleMap;
   loading: any;
+  environment: Environment = null;
 
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private platform: Platform) { }
+    private platform: Platform) {
+    this.environment = new Environment();
+    this.environment.setBackgroundColor('#005944');
+  }
 
   async ngOnInit() {
     // Since ngOnInit() is executed before `deviceready` event,
