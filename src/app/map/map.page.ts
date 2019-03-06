@@ -30,8 +30,11 @@ export class MapPage implements OnInit {
     public toastCtrl: ToastController,
     private platform: Platform,
     private Stores: StoresService) {
-    this.environment = new Environment();
-    this.environment.setBackgroundColor('#005944');
+    if (this.platform.is('hybrid')) {
+      this.environment = new Environment();
+      this.environment.setBackgroundColor('#005944');
+    }
+
   }
 
   async ngOnInit() {
