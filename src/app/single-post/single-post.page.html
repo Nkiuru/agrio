@@ -1,4 +1,10 @@
-<div class=" card media-item-card">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>single-post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
   <img class="image" [ngStyle]="{ 'background-image': postImageUrl }" />
 
   <section class="media-text-content">
@@ -12,6 +18,9 @@
           }"
         ></div>
       </div>
+      <!-- class="profile-picture"
+          [ngStyle]="{'background-image': 'url(' + postData?.profile_pic_url + ')'}"
+        /> -->
 
       <span class="user-info">
         <ion-text color="title">
@@ -67,4 +76,4 @@
       </p>
     </ion-text>
   </section>
-</div>
+</ion-content>
