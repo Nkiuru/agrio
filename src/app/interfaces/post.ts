@@ -1,6 +1,7 @@
 import { Thumbnail } from './thumbnail';
-import { Favorites } from './favorites';
+
 import { Comments } from './comments';
+import { Favourites } from './favourites';
 
 export interface Post {
   email: string;
@@ -17,7 +18,7 @@ export interface Post {
   description: string;
   screenshot?: string;
   profile_pic?: string;
-  comments?: Comments;
-  favorites?: Favorites;
+  comments?: Comments[];
   thumbnails?: Thumbnail;
+  favourites?: Favourites[];
 }
