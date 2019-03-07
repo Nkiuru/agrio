@@ -16,32 +16,38 @@ import { forkJoin } from 'rxjs';
   providedIn: 'root'
 })
 export class MediaService {
-  private postArray: Post[];
+  private postsArray: Post[];
   private profilePicArray: Post[];
 
   constructor(private http: HttpClient, private event: Events) {}
 
   initData() {
-    const postsData = this.http.get<Post[]>(API_MEDIA, this.mediaParams(0, 20));
+    const postsData = this.http.get<Post[]>(API_MEDIA, this.mediaParams(0, 1));
     const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
 
-    forkJoin([postsData, profilePicData]).subscribe(resList => {
-      console.log(resList[0]);
-      this.postArray = resList[0];
-      this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postArray);
-
-      console.log(resList[1]);
+    forkJoin([postsData, profilePicData])
+    .subscribe( resList => {
+      console.log('Posts data: ', resList[0]);
+      this.postsArray = resList[0];
       this.profilePicArray = resList[1];
-      this.event.publish(EVENT_PROFILE_PIC_ARRAY_UPDATE, this.profilePicArray);
+
+      this.postsArray.forEach(async post => {
+        this.appendProfilePicToPostData(post.user_id, post.file_id);
+        await this.getUserDetails(post.user_id, post.file_id);
+      });
+
+      console.log('Updated posts array: ', this.postsArray);
+      this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
     });
+
   }
 
   getPostsSegment(start = 0, limit = 20) {
     this.http.get<Post[]>(API_MEDIA, this.mediaParams(start, limit)).subscribe(
       res => {
         console.log(res);
-        this.postArray = res;
-        this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postArray);
+        this.postsArray = res;
+        this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
       },
       err => {
         console.log(err.message);
@@ -50,15 +56,38 @@ export class MediaService {
     );
   }
 
-  getUserDetails(userid: number) {
-    return this.http.get<User>(API_USERS + userid, this.requestToken());
+  private appendProfilePicToPostData(userid: number, fileid: number) {
+    const profilePic = this.profilePicArray.filter(pic => pic.user_id === userid);
+    if (profilePic.length >= 1) {
+      const updatedPost = {
+        ...this.postsArray.filter(post => post.file_id === fileid)[0],
+        profile_pic: profilePic[0].filename
+      };
+      const i = this.postsArray.findIndex(post => post.file_id === fileid);
+      this.postsArray[i] = updatedPost;
+    }
   }
 
-  getProfilePic(userid: number) {
-    return this.profilePicArray
-      .filter(post => post.user_id === userid)
-      .map(post => post.filename)[0];
+  private getUserDetails(userid: number, fileid: number) {
+    this.http
+      .get<User>(API_USERS + userid, this.requestToken())
+      .subscribe(res => {
+        const updatedPost: Post = {
+          ...this.postsArray.filter(post => post.file_id === fileid)[0],
+          ...res
+        };
+        const i = this.postsArray.findIndex(post => post.file_id === fileid);
+        this.postsArray[i] = updatedPost;
+      }, err => {
+        console.log(err);
+      });
   }
+
+  // getProfilePic(userid: number) {
+  //   return this.profilePicArray
+  //     .filter(post => post.user_id === userid)
+  //     .map(post => post.filename)[0];
+  // }
 
   private mediaParams(start: number, limit: number) {
     return {
@@ -76,7 +105,7 @@ export class MediaService {
     };
   }
 
-  getPostArray() {
-    return this.postArray;
+  getPostById(fileid: number) {
+    return this.postsArray.filter(post => post.file_id === fileid)[0];
   }
 }
