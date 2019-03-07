@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../../user.service';
 import { User } from '../../interfaces/user';
 import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,7 @@ export class UserComponent implements OnInit {
   user: User;
   loading: any;
 
-  constructor(private userService: UserService, public loadingCtrl: LoadingController) {
+  constructor(private userService: UserService, public loadingCtrl: LoadingController, private router:Router) {
   }
 
   async ngOnInit() {
@@ -39,7 +40,7 @@ export class UserComponent implements OnInit {
   }
 
   openSettings() {
-    // open user settings page
+    this.router.navigate(['/tabs/profile/settings']).catch(err => console.log(err));
   }
 
   openLikedPosts() {
