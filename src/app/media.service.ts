@@ -14,6 +14,7 @@ import { User } from './interfaces/user';
 import { forkJoin } from 'rxjs';
 import { Favourites } from './interfaces/favourites';
 import { Comments } from './interfaces/comments';
+import { Tag } from './interfaces/tags';
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +49,9 @@ export class MediaService {
     const userDetailsData  = this.http.get<User>(API_USERS + userid, this.requestToken());
     const postLikesData    = this.http.get<Favourites[]>(API_FAVORITES + 'file/' + fileid);
     const postCommentsData = this.http.get<Comments[]>(API_COMMENTS + 'file/' + fileid);
+    const postTagsData     = this.http.get<Tag[]>(API_TAGS + 'file/' + fileid);
 
-    forkJoin([userDetailsData, postLikesData, postCommentsData]).subscribe(resList => {
+    forkJoin([userDetailsData, postLikesData, postCommentsData, postTagsData]).subscribe(resList => {
 
       let profilePic: any = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
       if ( ! profilePic ) {
@@ -61,8 +63,10 @@ export class MediaService {
         ...resList[0],
         profile_pic: profilePic.filename,
         favourites: resList[1],
-        comments: resList[2]
+        comments: resList[2],
+        tags: resList[3]
       };
+      console.log(updatedPost);
 
       const i = this.postsArray.findIndex(post => post.file_id === fileid);
       this.postsArray[i] = updatedPost;

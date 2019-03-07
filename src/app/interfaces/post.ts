@@ -2,8 +2,10 @@ import { Thumbnail } from './thumbnail';
 
 import { Comments } from './comments';
 import { Favourites } from './favourites';
+import { Tag } from './tags';
 
 export interface Post {
+  tags?: Tag[];
   email: string;
   title: string;
   file_id: number;
