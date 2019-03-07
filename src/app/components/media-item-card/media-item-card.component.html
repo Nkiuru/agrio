@@ -1,14 +1,20 @@
 <div class=" card media-item-card">
-  <img class="image" [ngStyle]="{ 'background-image': postImageUrl }" />
+  <div
+    class="image"
+    [ngStyle]="{
+      'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
+    }"
+    [routerLink]="['/single-post', post.file_id]"
+  ></div>
 
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
       <div class="profile-picture">
         <div
           class="picture"
-          *ngIf="postData.profile_pic_url"
+          *ngIf="post.profile_pic"
           [ngStyle]="{
-            'background-image': 'url(' + postData?.profile_pic_url + ')'
+            'background-image': 'url(' + (post.profile_pic | imageSize: 'small') + ')'
           }"
         ></div>
       </div>
@@ -16,11 +22,11 @@
       <span class="user-info">
         <ion-text color="title">
           <h2>
-            {{ postData?.full_name ? postData?.full_name : 'No Full Name' }}
+            {{ post?.full_name ? post?.full_name : 'No Full Name' }}
           </h2>
         </ion-text>
         <ion-text>
-          <p>{{ postData?.username ? postData?.username : 'nousername' }}</p>
+          <p>{{ post?.username ? post?.username : 'nousername' }}</p>
         </ion-text>
       </span>
 
@@ -40,21 +46,21 @@
         </svg>
 
         <ion-text color="title">
-          <p>123</p>
+          <p>{{ post?.favourites.length }}</p>
         </ion-text>
       </span>
 
       <span class="media-comments">
         <img src="../../../assets/svg/comment.svg" />
         <ion-text color="title">
-          <p>45</p>
+          <p>{{ post.comments.length }}</p>
         </ion-text>
       </span>
     </section>
 
     <ion-text color="title">
       <h2 class="media-title">
-        {{ postData.title ? postData.title : 'No post title' }}
+        {{ post.title ? post.title : 'No post title' }}
       </h2>
     </ion-text>
 
@@ -63,7 +69,7 @@
         class="media-description"
         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
       >
-        {{ postData.description ? postData.description : 'No description' }}
+        {{ post.description ? post.description : 'No description' }}
       </p>
     </ion-text>
   </section>

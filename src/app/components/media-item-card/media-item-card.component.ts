@@ -10,38 +10,20 @@ import { API_UPLOADS } from '../../app-constants';
   styleUrls: ['./media-item-card.component.scss']
 })
 export class MediaItemCardComponent implements OnInit {
-  @Input() postData: Post;
+  @Input() postId: number;
 
   uploadsUrl = API_UPLOADS;
   postImageUrl: string;
   postLiked = false;
+  post: Post;
 
   constructor(private media: MediaService) {}
 
   ngOnInit() {
-    // Build the url to use in CSS attribute.
-    this.postImageUrl = `url(${this.uploadsUrl}${this.postData.filename})`;
+    this.post = this.media.getPostById(this.postId);
+  }
 
-    // Fetch user details for this post from server and append them to postData
-    // object.
-    this.media.getUserDetails(this.postData.user_id).subscribe((res: User) => {
-      console.log(res);
-      const updatedPostData = {
-        ...this.postData,
-        ...res
-      };
-      this.postData = updatedPostData;
-    });
-
-    let profilePicFilename = this.media.getProfilePic(this.postData.user_id);
-    if (profilePicFilename) {
-      profilePicFilename = this.uploadsUrl + profilePicFilename;
-      const postDataWithProfilePic = {
-        ...this.postData,
-        profile_pic_url: profilePicFilename
-      };
-      this.postData = postDataWithProfilePic;
-    }
+  ionViewDidEnter() {
   }
 
   onLike() {
@@ -49,9 +31,4 @@ export class MediaItemCardComponent implements OnInit {
     this.postLiked = !this.postLiked;
   }
 
-  getProfilePic(userid: number) {
-    const url = this.uploadsUrl + this.media.getProfilePic(userid);
-    console.log('profile pic url: ', url);
-    return url;
-  }
 }
