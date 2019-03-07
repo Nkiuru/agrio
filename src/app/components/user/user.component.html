@@ -7,13 +7,13 @@
     </div>
   </div>
   <div class="card-actions">
-    <ion-fab-button class="clear">
+    <ion-fab-button class="clear" (click)="openLikedPosts()">
       <ion-icon name="heart-empty"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button>
+    <ion-fab-button (click)="openAddPost()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button class="clear">
+    <ion-fab-button class="clear" (click)="openSettings()">
       <ion-icon name="settings"></ion-icon>
     </ion-fab-button>
   </div>

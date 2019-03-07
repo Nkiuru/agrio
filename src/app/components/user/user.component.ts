@@ -29,13 +29,25 @@ export class UserComponent implements OnInit {
     }
     if (local && local.user_id === this.userId) {
       this.user = local;
-      this.loading.dismiss();
+      this.loading.dismiss().catch(err => console.log(err));
     } else {
       this.userService.getUser(this.userId).subscribe((data) => {
         this.user = data;
-        this.loading.dismiss();
+        this.loading.dismiss().catch(err => console.log(err));
       });
     }
+  }
+
+  openSettings() {
+    // open user settings page
+  }
+
+  openLikedPosts() {
+    // open user's liked posts
+  }
+
+  openAddPost() {
+    // open add post page
   }
 
 }
