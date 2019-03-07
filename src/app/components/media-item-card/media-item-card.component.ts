@@ -17,10 +17,18 @@ export class MediaItemCardComponent implements OnInit {
   postLiked = false;
   post: Post;
 
+  user: User;
+
   constructor(private media: MediaService) {}
 
   ngOnInit() {
     this.post = this.media.getPostById(this.postId);
+
+    this.user = JSON.parse(localStorage.getItem('user'));
+    const myUserId: number = this.user.user_id;
+    if ( this.post.favourites.filter(fav => fav.user_id === myUserId).length > 0 ) {
+      this.postLiked = true;
+    }
   }
 
   ionViewDidEnter() {

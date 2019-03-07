@@ -4,6 +4,7 @@ import { StatusBarService } from '../status-bar.service';
 import { MediaService } from '../media.service';
 import { ActivatedRoute } from '@angular/router';
 import { API_UPLOADS } from '../app-constants';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-single-post',
@@ -14,6 +15,8 @@ export class SinglePostPage implements OnInit {
   postLiked = false;
   postId: number;
   post: Post;
+
+  user: User;
 
   uploadsUrl = API_UPLOADS;
 
@@ -27,6 +30,12 @@ export class SinglePostPage implements OnInit {
 
   ngOnInit() {
     this.post = this.media.getPostById(this.postId);
+
+    this.user = JSON.parse(localStorage.getItem('user'));
+    const myUserId: number = this.user.user_id;
+    if ( this.post.favourites.filter(fav => fav.user_id === myUserId).length > 0 ) {
+      this.postLiked = true;
+    }
   }
 
   ionViewWillEnter() {
