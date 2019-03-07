@@ -10,28 +10,41 @@ import {
   GoogleMapsEvent,
   Marker,
   GoogleMapsAnimation,
-  MyLocation, Environment, BaseArrayClass, LatLng, MarkerOptions
+  MyLocation, Environment, LatLng,
 } from '@ionic-native/google-maps';
 import { StoresService } from '../stores.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
+  animations: [
+    trigger('itemState', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(500)),
+    ]),
+  ]
 })
 export class MapPage implements OnInit {
   search: string;
+  filteredMarkers: Marker[] = [];
+  markers: Marker[] = [];
   map: GoogleMap;
   loading: any;
-  environment: Environment = null;
 
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     private platform: Platform,
     private Stores: StoresService) {
-    this.environment = new Environment();
-    this.environment.setBackgroundColor('#005944');
+    if (this.platform.is('hybrid')) {
+      Environment.setBackgroundColor('#005944');
+    }
+
   }
 
   async ngOnInit() {
@@ -57,16 +70,12 @@ export class MapPage implements OnInit {
     stores.forEach(store => {
       const coordinates: LatLng = new LatLng(store.position.lat, store.position.lgn);
 
-      const markerOptions: MarkerOptions = {
+      const marker: Marker = this.map.addMarkerSync({
         position: coordinates,
         title: store.title,
         snippet: store.description,
-      };
-
-      this.map.addMarker(markerOptions)
-        .then((marker: Marker) => {
-          marker.showInfoWindow();
-        });
+      });
+      this.markers.push(marker);
 
     });
   }
@@ -101,16 +110,31 @@ export class MapPage implements OnInit {
 
       // show the infoWindow
       marker.showInfoWindow();
-
-      // If clicked it, display the alert
-      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-        this.showToast('clicked!');
-      });
     })
       .catch(err => {
         this.loading.dismiss();
         this.showToast(err.error_message);
       });
+  }
+
+  show(place: Marker) {
+    this.map.animateCamera({
+      target: place.getPosition(),
+      zoom: 17,
+      tilt: 30
+    });
+    place.showInfoWindow();
+  }
+
+  filterMarkers() {
+    this.filteredMarkers.length = 0;
+    this.markers.forEach((marker) => {
+      if (marker.getTitle().toLowerCase().includes(this.search.toLowerCase()) ||
+        marker.getSnippet().toLowerCase().includes(this.search.toLowerCase())) {
+        this.filteredMarkers.push(marker);
+      }
+    });
+    console.log(this.filteredMarkers);
   }
 
   async showToast(message: string) {
