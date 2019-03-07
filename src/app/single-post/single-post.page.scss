@@ -101,6 +101,25 @@
       }
     }
   }
+
+  ul {
+    display: flex;
+    padding: 0;
+    margin-top: 24px;
+    flex-wrap: wrap;
+
+    .tag {
+      list-style: none;
+      border: 1px solid var(--ion-color-title);
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ion-color-title);
+      padding: 5px 16px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+  }
 }
 
 .heart-solid {

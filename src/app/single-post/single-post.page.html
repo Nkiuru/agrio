@@ -21,7 +21,7 @@
           class="picture"
           *ngIf="post.profile_pic"
           [ngStyle]="{
-            'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
+            'background-image': 'url(' + (post.profile_pic | imageSize: 'large') + ')'
           }"
         ></div>
       </div>
@@ -79,5 +79,10 @@
         {{ post.description ? post.description : 'No description' }}
       </p>
     </ion-text>
+
+    <ul>
+      <li class="tag" *ngFor="let tag of post.tags">{{ tag.tag }}</li>
+    </ul>
   </section>
+
 </ion-content>
