@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserService } from '../../user.service';
+import { User } from '../../interfaces/user';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user',
@@ -6,10 +9,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  @Input() userId;
+  user: User;
+  loading: any;
 
-  constructor() { }
+  constructor(private userService: UserService, public loadingCtrl: LoadingController) {
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.loading = await this.loadingCtrl.create({
+      message: 'Please wait...'
+    });
+    await this.loading.present();
+    let local;
+    try {
+      local = <User>JSON.parse(localStorage.getItem('user'));
+    } catch (e) {
+      console.log(e);
+    }
+    if (local && local.user_id === this.userId) {
+      this.user = local;
+      this.loading.dismiss();
+    } else {
+      this.userService.getUser(this.userId).subscribe((data) => {
+        this.user = data;
+        this.loading.dismiss();
+      });
+    }
   }
 
 }
