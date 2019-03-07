@@ -11,3 +11,15 @@ export const API_FAVORITES = 'http://media.mw.metropolia.fi/wbma/favourites/';
 export const EVENT_MEDIA_SERVICE_INIT = 'EVENT_MEDIA_SERVICE_INIT';
 export const EVENT_MEDIA_ARRAY_UPDATE = 'EVENT_MEDIA_ARRAY_UPDATE';
 export const EVENT_PROFILE_PIC_ARRAY_UPDATE = 'EVENT_PROFILE_PIC_ARRAY_UPDATE';
+
+// Thumbnail sizes
+export const SMALL = 'small';
+export const TN_160 = '-tn160.png';
+
+export const MEDIUM = 'medium';
+export const TN_320 = '-tn320.png';
+
+export const LARGE = 'large';
+export const TN_640 = '-tn640.png';
+
+export const ORIGINAL = 'original';
