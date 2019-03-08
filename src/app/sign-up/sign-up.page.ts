@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { LoginService } from '../login.service';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +21,7 @@ export class SignUpPage implements OnInit {
   username = '';
   validPassword = false;
 
-  constructor(private user: UserService, private loginService: LoginService, private router: Router) {
+  constructor(private user: UserService, private loginService: LoginService, private nav: NavController) {
   }
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class SignUpPage implements OnInit {
       console.log(data);
       localStorage.setItem('token', data.token);
       this.loginService.isLoggedIn = true;
-      this.router.navigate(['']).catch(err => console.log(err));
+      this.nav.navigateRoot('/tabs/home').catch(err => console.log(err));
     }, error => console.log(error));
   }
 
