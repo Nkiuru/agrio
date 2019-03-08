@@ -40,7 +40,7 @@ export class UserComponent implements OnInit {
   }
 
   openSettings() {
-    this.router.navigate(['/tabs/profile/settings']).catch(err => console.log(err));
+    this.router.navigate(['/settings']).catch(err => console.log(err));
   }
 
   openLikedPosts() {
