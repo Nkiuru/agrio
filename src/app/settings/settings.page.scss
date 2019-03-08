@@ -1,5 +1,6 @@
 .card-content {
   margin: 16px;
+
   h3 {
     font-style: normal;
     font-weight: 500;
@@ -15,24 +16,39 @@
     align-items: center;
     margin-bottom: 56px;
     margin-top: 16px;
+
     img {
       height: 70px;
       width: 70px;
       margin-right: 16px;
       border-radius: 100px !important;
     }
-    ion-button {
+
+    .upload-btn-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
       flex: 1;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
     }
   }
 
   .info-container {
     ion-item {
       --border-color: #C6D7D3;
+
       ion-icon {
         margin-top: 32px;
       }
     }
+
     padding-bottom: 16px;
   }
 }

@@ -19,7 +19,8 @@ export class MediaService {
   private postArray: Post[];
   private profilePicArray: Post[];
 
-  constructor(private http: HttpClient, private event: Events) {}
+  constructor(private http: HttpClient, private event: Events) {
+  }
 
   initData() {
     const postsData = this.http.get<Post[]>(API_MEDIA, this.mediaParams(0, 20));
@@ -58,6 +59,12 @@ export class MediaService {
     return this.profilePicArray
       .filter(post => post.user_id === userid)
       .map(post => post.filename)[0];
+  }
+
+  getProfilePicId(userid: number) {
+    return this.profilePicArray
+      .filter(post => post.user_id === userid)
+      .map(post => post.file_id)[0];
   }
 
   private mediaParams(start: number, limit: number) {

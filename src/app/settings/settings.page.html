@@ -21,14 +21,17 @@
             <form #settingsForm="ngForm">
                 <h3>Profile picture</h3>
                 <div class="photo-container">
-                    <img src="../../../assets/img/default_profile_pic.jpg" alt="">
-                    <ion-button (click)="uploadPhoto()"
-                                color="secondary"
-                                mode="ios"
-                                expand="block"
-                                shape="round"
-                                fill="outline">Change photo
-                    </ion-button>
+                    <img *ngIf="profilePic" id="preview" [src]="profilePic" alt="">
+                    <div class="upload-btn-wrapper">
+                        <ion-button (click)="uploadPhoto()"
+                                    color="secondary"
+                                    mode="ios"
+                                    expand="block"
+                                    shape="round"
+                                    fill="outline">Change photo
+                        </ion-button>
+                        <input type="file" name="myfile" accept="image/*" (change)="fileUpload($event)"/>
+                    </div>
                 </div>
                 <h3>Profile info</h3>
                 <div class="info-container">
