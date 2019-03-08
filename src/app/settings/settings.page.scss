@@ -1,0 +1,38 @@
+.card-content {
+  margin: 16px;
+  h3 {
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 14px;
+    color: #005944;
+    margin-bottom: 0;
+    padding-bottom: -8px;
+  }
+
+  .photo-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 56px;
+    margin-top: 16px;
+    img {
+      height: 70px;
+      width: 70px;
+      margin-right: 16px;
+      border-radius: 100px !important;
+    }
+    ion-button {
+      flex: 1;
+    }
+  }
+
+  .info-container {
+    ion-item {
+      --border-color: #C6D7D3;
+      ion-icon {
+        margin-top: 32px;
+      }
+    }
+    padding-bottom: 16px;
+  }
+}
