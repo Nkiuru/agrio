@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserService } from '../../user.service';
 import { User } from '../../interfaces/user';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -9,12 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  @Input() userId;
-  user: User;
-  loading: any;
+  @Input() user: User;
   isCurrentUser = false;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private router: Router) {
   }
 
   async ngOnInit() {
@@ -24,13 +21,8 @@ export class UserComponent implements OnInit {
     } catch (e) {
       console.log(e);
     }
-    if (local && local.user_id === this.userId) {
-      this.user = local;
+    if (local && local.user_id === this.user.user_id) {
       this.isCurrentUser = true;
-    } else {
-      this.userService.getUser(this.userId).subscribe((data) => {
-        this.user = data;
-      });
     }
   }
 

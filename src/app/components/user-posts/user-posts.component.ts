@@ -3,6 +3,7 @@ import { Post } from '../../interfaces/post';
 import { MediaService } from '../../media.service';
 import { Events } from '@ionic/angular';
 import { EVENT_MEDIA_ARRAY_UPDATE, EVENT_PROFILE_PIC_ARRAY_UPDATE, EVENT_USER_MEDIA_ARRAY_UPDATE } from '../../app-constants';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-user-posts',
@@ -10,7 +11,7 @@ import { EVENT_MEDIA_ARRAY_UPDATE, EVENT_PROFILE_PIC_ARRAY_UPDATE, EVENT_USER_ME
   styleUrls: ['./user-posts.component.scss']
 })
 export class UserPostsComponent implements OnInit, OnDestroy {
-  @Input() userId: number;
+  @Input() user: User;
   postArray: Post[];
   profilePicArray: Post[];
 
@@ -25,7 +26,7 @@ export class UserPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.media.initProfileData(this.userId);
+    this.media.initProfileData(this.user.user_id);
   }
 
   ngOnDestroy() {

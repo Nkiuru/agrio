@@ -15,7 +15,6 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     try {
       this.user = JSON.parse(localStorage.getItem('user'));
-      console.log(this.user);
     } catch (e) {
       console.log(e);
     }
