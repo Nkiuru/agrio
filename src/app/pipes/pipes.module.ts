@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { ImageSizePipe } from './image-size.pipe';
+import { MomentPipe } from './moment.pipe';
 
 @NgModule({
     declarations: [
-      ImageSizePipe
+      ImageSizePipe,
+      MomentPipe
     ],
     imports: [],
     exports: [
-        ImageSizePipe
+        ImageSizePipe,
+        MomentPipe
     ]
 })
 export class PipesModule {}

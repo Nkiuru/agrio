@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Post } from 'src/app/interfaces/post';
 import { MediaService } from 'src/app/media.service';
 import { User } from 'src/app/interfaces/user';
-import { API_UPLOADS } from '../../app-constants';
+import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE } from '../../app-constants';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-media-item-card',
@@ -14,29 +15,31 @@ export class MediaItemCardComponent implements OnInit {
 
   uploadsUrl = API_UPLOADS;
   postImageUrl: string;
-  postLiked = false;
+  postLiked: boolean;
   post: Post;
 
-  user: User;
+  user: User = JSON.parse(localStorage.getItem('user'));
 
   constructor(private media: MediaService) {}
 
   ngOnInit() {
     this.post = this.media.getPostById(this.postId);
 
-    this.user = JSON.parse(localStorage.getItem('user'));
-    const myUserId: number = this.user.user_id;
-    if ( this.post.favourites.filter(fav => fav.user_id === myUserId).length > 0 ) {
-      this.postLiked = true;
-    }
-  }
-
-  ionViewDidEnter() {
+    // This bit is nesessary to keep the media item component like animation working
+    const newLikeState = this.post.favourites.filter(fav => fav.user_id === this.user.user_id).length > 0;
+    const oldLikeState = ! newLikeState;
+    this.postLiked = oldLikeState;
+    setTimeout(() => {
+      this.postLiked = newLikeState;
+    }, 10);
   }
 
   onLike() {
-    console.log('like clicked');
-    this.postLiked = !this.postLiked;
+    if ( this.postLiked ) {
+      this.media.removeLike(this.post.file_id);
+    } else {
+      this.media.addLike(this.post.file_id);
+    }
   }
 
 }

@@ -8,7 +8,7 @@
   }
 
   .media-text-content {
-    padding: 16px;
+    padding: 8px 16px;
 
     .media-title {
       margin-top: 16px;
@@ -25,8 +25,8 @@
       align-items: center;
 
       .profile-picture {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
         background-image: url(../../../assets/img/default_profile_pic.jpg);
         background-size: cover;
         background-position: center center;
@@ -73,7 +73,7 @@
           fill: white;
           stroke: var(--ion-color-title);
           stroke-width: 1px;
-          width: 22px;
+          width: 24px;
           height: 100%;
 
           transition: fill 200ms ease-in-out, stroke 200ms ease-in-out;
@@ -92,7 +92,7 @@
         align-items: center;
 
         img {
-          width: 19px;
+          width: 22px;
         }
 
         p {
@@ -101,6 +101,12 @@
           font-size: 14px;
         }
       }
+    }
+
+    .timestamp {
+      color: #779f96;
+      font-size: 12px;
+      font-weight: 500;
     }
   }
 

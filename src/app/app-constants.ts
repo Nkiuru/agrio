@@ -10,6 +10,8 @@ export const API_FAVORITES = 'http://media.mw.metropolia.fi/wbma/favourites/';
 // Events
 export const EVENT_MEDIA_SERVICE_INIT = 'EVENT_MEDIA_SERVICE_INIT';
 export const EVENT_MEDIA_ARRAY_UPDATE = 'EVENT_MEDIA_ARRAY_UPDATE';
+export const EVENT_COMMENT_DATA_UPDATE = 'EVENT_COMMENT_DATA_UPDATE';
+export const EVENT_SINGLE_MEDIA_UPDATE = 'EVENT_SINGLE_MEDIA_UPDATE';
 export const EVENT_PROFILE_PIC_ARRAY_UPDATE = 'EVENT_PROFILE_PIC_ARRAY_UPDATE';
 
 // Thumbnail sizes
@@ -23,3 +25,11 @@ export const LARGE = 'large';
 export const TN_640 = '-tn640.png';
 
 export const ORIGINAL = 'original';
+
+// Moment millisecond amounts
+export const MS_SEC   = 1_000;
+export const MS_MIN   = 60_000;
+export const MS_HR    = 3_600_000;
+export const MS_DAY   = 86_400_000;
+export const MS_WEEK  = 604_800_000;
+export const MS_MONTH = 2_592_000_000;

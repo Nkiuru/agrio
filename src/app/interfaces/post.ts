@@ -1,6 +1,6 @@
 import { Thumbnail } from './thumbnail';
 
-import { Comments } from './comments';
+import { Comment } from './comment';
 import { Favourites } from './favourites';
 import { Tag } from './tags';
 
@@ -20,7 +20,7 @@ export interface Post {
   description: string;
   screenshot?: string;
   profile_pic?: string;
-  comments?: Comments[];
+  comments?: Comment[];
   thumbnails?: Thumbnail;
   favourites?: Favourites[];
 }

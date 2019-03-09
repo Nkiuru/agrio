@@ -1,18 +1,22 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
 
-      <ion-buttons slot="end">
-          <ion-icon slot="icon-only" name="more"></ion-icon>
-      </ion-buttons>
-
+    <ion-buttons slot="end">
+      <ion-icon slot="icon-only" name="more"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
-  <img class="image" [ngStyle]="{ 'background-image': 'url(' + uploadsUrl + post.filename + ')' }" />
+<ion-content>
+  <img
+    class="image"
+    [ngStyle]="{
+      'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
+    }"
+  />
 
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
@@ -21,7 +25,8 @@
           class="picture"
           *ngIf="post.profile_pic"
           [ngStyle]="{
-            'background-image': 'url(' + (post.profile_pic | imageSize: 'large') + ')'
+            'background-image':
+              'url(' + (post.profile_pic | imageSize: 'small') + ')'
           }"
         ></div>
       </div>
@@ -72,17 +77,93 @@
     </ion-text>
 
     <ion-text color="text">
-      <p
-        class="media-description"
-        style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
-      >
+      <p class="media-description">
         {{ post.description ? post.description : 'No description' }}
       </p>
     </ion-text>
 
+    <p class="timestamp">{{ post.time_added | moment }}</p>
+
     <ul>
       <li class="tag" *ngFor="let tag of post.tags">{{ tag.tag }}</li>
     </ul>
-  </section>
 
+    <section class="comments-section">
+      <div class="header">
+        <img src="../../../assets/svg/comment.svg" />
+        <ion-text>
+          <p>
+            Comments <span class="bull">&bull;</span> {{ post.comments.length }}
+          </p>
+        </ion-text>
+        <span class="line"></span>
+      </div>
+
+      <div class="add-comment">
+        <div
+          class="comment-user-image"
+          [ngStyle]="{
+            'background-image':
+              'url(' +
+              (getProfilePic() | imageSize: 'small') +
+              '), ' +
+              'url(../../../assets/img/default_profile_pic.jpg)'
+          }"
+        ></div>
+        <p class="placeholder" (click)="presentCommentModal()">
+          Add comment...
+        </p>
+      </div>
+
+      <ul class="test-comments">
+        <app-comment
+          style="width: 100%"
+          *ngFor="let comment of post.comments"
+          [commentData]="comment"
+        ></app-comment>
+      </ul>
+    </section>
+  </section>
 </ion-content>
+
+<section #commentModal class="add-comment-modal" *ngIf="showCommentModal">
+  <div class="backdrop" (click)="dismissCommentModal()"></div>
+  <div class="add-comment-input">
+    <div
+      class="comment-user-image"
+      [ngStyle]="{
+        'background-image':
+          'url(' +
+          (getProfilePic() | imageSize: 'small') +
+          '), ' +
+          'url(../../../assets/img/default_profile_pic.jpg)'
+      }"
+      ></div>
+    <textarea
+      #commentModalInput
+      type="text"
+      rows="1"
+      class="input"
+      placeholder="Add comment..."
+      [(ngModel)]="inputVal"
+      (input)="chekcValidityAndResize()"
+    ></textarea>
+
+    <button
+      class="send-btn"
+      [disabled]="!commentValid"
+      (click)="onPostComment()"
+    >
+      <svg
+        [ngClass]="{ 'send-disabled': !commentValid }"
+        width="24"
+        height="20"
+        viewBox="0 0 24 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0 20L24 10L0 0V7.77778L17.1429 10L0 12.2222V20Z" />
+      </svg>
+    </button>
+  </div>
+</section>

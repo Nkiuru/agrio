@@ -8,6 +8,10 @@ export class ImageSizePipe implements PipeTransform {
 
   transform(filename: string, size: string): string {
 
+    if (filename === '') {
+      return;
+    }
+
     const thumbnail = filename.split('.')[0];
 
     switch (size) {

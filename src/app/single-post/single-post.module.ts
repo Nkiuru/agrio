@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { SinglePostPage } from './single-post.page';
 import { PipesModule } from '../pipes/pipes.module';
+import { CommentComponent } from './comment/comment.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,6 @@ const routes: Routes = [
     PipesModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SinglePostPage]
+  declarations: [SinglePostPage, CommentComponent]
 })
 export class SinglePostPageModule {}

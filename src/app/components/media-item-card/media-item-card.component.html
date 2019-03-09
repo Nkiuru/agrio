@@ -72,5 +72,8 @@
         {{ post.description ? post.description : 'No description' }}
       </p>
     </ion-text>
+
+    <p class="timestamp">{{ post.time_added | moment }}</p>
+
   </section>
 </div>
