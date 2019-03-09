@@ -12,6 +12,7 @@ export class UserComponent implements OnInit {
   @Input() userId;
   user: User;
   loading: any;
+  isCurrentUser = false;
 
   constructor(private userService: UserService, private router: Router) {
   }
@@ -25,6 +26,7 @@ export class UserComponent implements OnInit {
     }
     if (local && local.user_id === this.userId) {
       this.user = local;
+      this.isCurrentUser = true;
     } else {
       this.userService.getUser(this.userId).subscribe((data) => {
         this.user = data;
