@@ -7,7 +7,9 @@ import {
   API_MEDIA,
   API_USERS,
   EVENT_MEDIA_ARRAY_UPDATE,
-  EVENT_PROFILE_PIC_ARRAY_UPDATE
+  EVENT_PROFILE_PIC_ARRAY_UPDATE,
+  API_MEDIA_USER,
+  EVENT_USER_MEDIA_ARRAY_UPDATE,
 } from './app-constants';
 import { User } from './interfaces/user';
 import { forkJoin } from 'rxjs';
@@ -30,6 +32,21 @@ export class MediaService {
       console.log(resList[0]);
       this.postArray = resList[0];
       this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postArray);
+
+      console.log(resList[1]);
+      this.profilePicArray = resList[1];
+      this.event.publish(EVENT_PROFILE_PIC_ARRAY_UPDATE, this.profilePicArray);
+    });
+  }
+
+  initProfileData(userid: number) {
+    const postsData = this.http.get<Post[]>(API_MEDIA_USER + userid);
+    const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
+
+    forkJoin([postsData, profilePicData]).subscribe(resList => {
+      console.log(resList[0]);
+      this.postArray = resList[0];
+      this.event.publish(EVENT_USER_MEDIA_ARRAY_UPDATE, this.postArray);
 
       console.log(resList[1]);
       this.profilePicArray = resList[1];
