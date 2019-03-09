@@ -18,7 +18,7 @@ export class UserPostsComponent implements OnInit, OnDestroy {
   constructor(private media: MediaService,
               private event: Events) {
     event.subscribe(EVENT_USER_MEDIA_ARRAY_UPDATE, array => {
-      this.postArray = array.reverse();
+      this.postArray = array;
     });
     event.subscribe(EVENT_PROFILE_PIC_ARRAY_UPDATE, array => {
       this.profilePicArray = array;
