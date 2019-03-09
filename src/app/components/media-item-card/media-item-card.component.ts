@@ -3,6 +3,7 @@ import { Post } from 'src/app/interfaces/post';
 import { MediaService } from 'src/app/media.service';
 import { User } from 'src/app/interfaces/user';
 import { API_UPLOADS } from '../../app-constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-media-item-card',
@@ -16,7 +17,8 @@ export class MediaItemCardComponent implements OnInit {
   postImageUrl: string;
   postLiked = false;
 
-  constructor(private media: MediaService) {}
+  constructor(private media: MediaService, private router: Router) {
+  }
 
   ngOnInit() {
     // Build the url to use in CSS attribute.
@@ -47,6 +49,10 @@ export class MediaItemCardComponent implements OnInit {
   onLike() {
     console.log('like clicked');
     this.postLiked = !this.postLiked;
+  }
+
+  openProfile(userid: number) {
+    this.router.navigate(['user/' + userid]).catch((err) => console.log(err));
   }
 
   getProfilePic(userid: number) {

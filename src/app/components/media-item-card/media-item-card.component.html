@@ -3,7 +3,7 @@
 
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
-      <div class="profile-picture">
+      <div class="profile-picture" (click)="openProfile(postData.user_id)">
         <div
           class="picture"
           *ngIf="postData.profile_pic_url"
@@ -16,7 +16,7 @@
         [ngStyle]="{'background-image': 'url(' + postData?.profile_pic_url + ')'}"
       /> -->
 
-      <span class="user-info">
+      <span class="user-info" (click)="openProfile(postData.user_id)">
         <ion-text color="title">
           <h2>
             {{ postData?.full_name ? postData?.full_name : 'No Full Name' }}
