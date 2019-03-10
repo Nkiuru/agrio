@@ -27,9 +27,6 @@ export class HomePage implements OnInit, OnDestroy {
     event.subscribe(EVENT_MEDIA_ARRAY_UPDATE, array => {
       this.postArray = array;
     });
-    event.subscribe(EVENT_PROFILE_PIC_ARRAY_UPDATE, array => {
-      this.profilePicArray = array;
-    });
   }
 
   ngOnInit() {
@@ -72,7 +69,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.event.unsubscribe(EVENT_MEDIA_ARRAY_UPDATE);
-    this.event.unsubscribe(EVENT_PROFILE_PIC_ARRAY_UPDATE);
   }
 
 }

@@ -6,8 +6,10 @@ const routes: Routes = [
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule', canActivate: [AuthGuard] },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpPageModule' },
+  { path: 'single-post/:postid', loadChildren: './single-post/single-post.module#SinglePostPageModule' }
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule'},
   { path: 'user/:id', loadChildren: './user/user.module#UserPageModule' }
+
 ];
 
 @NgModule({

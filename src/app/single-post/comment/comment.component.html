@@ -1,0 +1,23 @@
+<li class="comment-container">
+  <div
+    class="profile-pic"
+    [ngStyle]="{
+      'background-image':
+        'url(' +
+        (getProfilePic(commentData.user_id) | imageSize: 'small') +
+        '), ' +
+        'url(../../../assets/img/default_profile_pic.jpg)'
+    }"
+  ></div>
+
+  <section class="text-data-container">
+    <p class="userinfo">
+      {{ commentData?.fullname ? commentData?.fullname : 'No Full Name' }}
+      <span>&bull;</span>
+      {{ commentData?.username ? commentData?.username : 'No Full Name' }}
+      <span>&bull;</span>
+      {{ (commentData.time_added | moment) }}
+    </p>
+    <p class="comment">{{ commentData.comment }}</p>
+  </section>
+</li>
