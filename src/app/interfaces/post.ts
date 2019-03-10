@@ -6,23 +6,7 @@ export interface Post {
   filename: string;
   filesize: number;
   title: string;
-  description: {
-    postType: string,
-    coordinates?: {
-      long: string,
-      lat: string,
-    },
-    content: {
-      realDescription: string,
-      ingredients?: [
-        {
-          amount: number,
-          unit: string,
-          ingredient: string
-        }],
-      steps?: string[],
-    }
-  };
+  description: string;
   media_type: string;
   mime_type: string;
   time_added: string;
