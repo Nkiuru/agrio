@@ -11,6 +11,9 @@ import {
   API_COMMENTS,
   EVENT_SINGLE_MEDIA_UPDATE,
   EVENT_COMMENT_DATA_UPDATE
+  EVENT_PROFILE_PIC_ARRAY_UPDATE,
+  API_MEDIA_USER,
+  EVENT_USER_MEDIA_ARRAY_UPDATE,
 } from './app-constants';
 import { User } from './interfaces/user';
 import { forkJoin, Observable } from 'rxjs';
@@ -28,7 +31,8 @@ export class MediaService {
 
   private limit = 20;
 
-  constructor(private http: HttpClient, private event: Events) {}
+  constructor(private http: HttpClient, private event: Events) {
+  }
 
   initData() {
     const postsData = this.http.get<Post[]>(
@@ -88,6 +92,7 @@ export class MediaService {
       }
     });
   }
+
 
   nextPostsSegment() {
     const start = this.postsArray.length;
@@ -159,6 +164,24 @@ export class MediaService {
       comment: comment
     };
     this.http.post(API_COMMENTS, data, this.requestToken()).subscribe(
+
+  initProfileData(userid: number) {
+    const postsData = this.http.get<Post[]>(API_MEDIA_USER + userid);
+    const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
+
+    forkJoin([postsData, profilePicData]).subscribe(resList => {
+      console.log(resList[0]);
+      this.postArray = resList[0];
+      this.event.publish(EVENT_USER_MEDIA_ARRAY_UPDATE, this.postArray);
+
+      console.log(resList[1]);
+      this.profilePicArray = resList[1];
+      this.event.publish(EVENT_PROFILE_PIC_ARRAY_UPDATE, this.profilePicArray);
+    });
+  }
+
+  getPostsSegment(start = 0, limit = 20) {
+    this.http.get<Post[]>(API_MEDIA, this.mediaParams(start, limit)).subscribe(
       res => {
         console.log(res);
         this.http.get<Comment[]>(API_COMMENTS + 'file/' + fileid).subscribe(commentsData => {
@@ -181,6 +204,23 @@ export class MediaService {
       }
     );
   }
+
+  getUserDetails(userid: number) {
+    return this.http.get<User>(API_USERS + userid, this.requestToken());
+  }
+
+  getProfilePic(userid: number) {
+    return this.profilePicArray
+      .filter(post => post.user_id === userid)
+      .map(post => post.filename)[0];
+  }
+
+  getProfilePicId(userid: number) {
+    return this.profilePicArray
+      .filter(post => post.user_id === userid)
+      .map(post => post.file_id)[0];
+  }
+
 
   private mediaParams(start: number, limit: number) {
     return {

@@ -1,0 +1,20 @@
+<div class="card" *ngIf="user">
+  <div class="card-header">
+    <img src="../../../assets/img/default_profile_pic.jpg" alt="">
+    <div class="name-container">
+      <p class="name">{{ user.full_name || 'no full name added'}}</p>
+      <p class="username">{{ user.username }}</p>
+    </div>
+  </div>
+  <div class="card-actions" *ngIf="isCurrentUser">
+    <ion-fab-button class="clear" (click)="openLikedPosts()">
+      <ion-icon name="heart-empty"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="openAddPost()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button class="clear" (click)="openSettings()">
+      <ion-icon name="settings"></ion-icon>
+    </ion-fab-button>
+  </div>
+</div>

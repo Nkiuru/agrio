@@ -8,6 +8,8 @@ import { ToolbarModule } from '../components/toolbar/toolbar.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { MediaItemCardComponent } from '../components/media-item-card/media-item-card.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { MediaItemCardModule } from '../components/media-item-card/media-item-card.module';
+
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { PipesModule } from '../pipes/pipes.module';
     FormsModule,
     IonicModule,
     PipesModule,
+    MediaItemCardModule,
     RouterModule.forChild([
       {
         path: '',
@@ -23,6 +26,6 @@ import { PipesModule } from '../pipes/pipes.module';
     ]),
     ToolbarModule,
   ],
-  declarations: [HomePage, WelcomeComponent, MediaItemCardComponent]
+  declarations: [HomePage, WelcomeComponent]
 })
 export class HomePageModule {}

@@ -31,15 +31,24 @@ export class UserService {
     return this.http.get<User>(this.baseUrl + 'users/' + id, httpOptions);
   }
 
-  updateUser(user: User) {
-    console.log(user);
+  getUserData() {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'x-access-token': localStorage.getItem('token'),
       })
     };
-    return this.http.put<User>(this.baseUrl + 'users/', user, httpOptions);
+    return this.http.get<User>(this.baseUrl + '/users/user/', httpOptions);
+  }
+
+  updateUser(user: User) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token'),
+      })
+    };
+    return this.http.put<any>(this.baseUrl + 'users/', user, httpOptions);
   }
 
   checkUsername(username: string) {

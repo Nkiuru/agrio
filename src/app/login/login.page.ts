@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { StatusBarService } from '../status-bar.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,8 @@ export class LoginPage implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private statusBar: StatusBarService,
-    private toast: ToastController
+    private toast: ToastController,
+    private nav: NavController,
   ) {
   }
 
@@ -38,7 +39,7 @@ export class LoginPage implements OnInit {
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
           this.loginService.isLoggedIn = true;
-          this.router.navigate(['']).catch(err => console.log(err));
+          this.nav.navigateRoot('/tabs/home').catch(err => console.log(err));
         },
         error => {
           const message: string = error.error.message;

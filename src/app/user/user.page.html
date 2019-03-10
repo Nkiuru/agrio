@@ -1,0 +1,12 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Profile</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="primary">
+    <app-user-posts *ngIf="user" [user]="user"></app-user-posts>
+</ion-content>

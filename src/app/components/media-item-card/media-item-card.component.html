@@ -9,7 +9,7 @@
 
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
-      <div class="profile-picture">
+      <div class="profile-picture" (click)="openProfile(postData.user_id)">
         <div
           class="picture"
           *ngIf="post.profile_pic"
@@ -19,7 +19,7 @@
         ></div>
       </div>
 
-      <span class="user-info">
+      <span class="user-info" (click)="openProfile(postData.user_id)">
         <ion-text color="title">
           <h2>
             {{ post?.full_name ? post?.full_name : 'No Full Name' }}
