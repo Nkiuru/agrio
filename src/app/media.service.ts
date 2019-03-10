@@ -7,13 +7,13 @@ import {
   API_MEDIA,
   API_USERS,
   EVENT_MEDIA_ARRAY_UPDATE,
-  API_FAVORITES,
   API_COMMENTS,
   EVENT_SINGLE_MEDIA_UPDATE,
-  EVENT_COMMENT_DATA_UPDATE
+  EVENT_COMMENT_DATA_UPDATE,
   EVENT_PROFILE_PIC_ARRAY_UPDATE,
   API_MEDIA_USER,
   EVENT_USER_MEDIA_ARRAY_UPDATE,
+  API_FAVOURITES,
 } from './app-constants';
 import { User } from './interfaces/user';
 import { forkJoin, Observable } from 'rxjs';
@@ -26,8 +26,10 @@ import { Tag } from './interfaces/tags';
 })
 export class MediaService {
   private postsArray: Post[];
+  private profilePostsArray: Post[];
   private profilePicArray: Post[];
   private completeDetailsFetched = 0;
+  private completeDetailsFetchedForProfile = 0;
 
   private limit = 20;
 
@@ -35,10 +37,7 @@ export class MediaService {
   }
 
   initData() {
-    const postsData = this.http.get<Post[]>(
-      API_MEDIA,
-      this.mediaParams(0, this.limit)
-    );
+    const postsData = this.http.get<Post[]>(API_MEDIA, this.mediaParams(0, this.limit));
     const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
 
     forkJoin([postsData, profilePicData]).subscribe(resList => {
@@ -52,10 +51,10 @@ export class MediaService {
     });
   }
 
-  private getCompleteDataForPost(fileid: number, userid: number) {
+  private getCompleteDataForPost(fileid: number, userid: number, profilePost = false) {
 
     const userDetailsData = this.http.get<User>(API_USERS + userid, this.requestToken());
-    const postLikesData = this.http.get<Favourites[]>(API_FAVORITES + 'file/' + fileid);
+    const postLikesData = this.http.get<Favourites[]>(API_FAVOURITES + 'file/' + fileid);
     const postCommentsData = this.http.get<Comment[]>(API_COMMENTS + 'file/' + fileid);
     const postTagsData = this.http.get<Tag[]>(API_TAGS + 'file/' + fileid);
 
@@ -66,29 +65,60 @@ export class MediaService {
       postTagsData
     ]).subscribe(resList => {
 
-      let profilePic: any = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
-      if (!profilePic) {
-        profilePic = { filename: null };
-      }
+      if ( profilePost ) {
 
-      const updatedPost = {
-        ...this.postsArray.filter(post => post.file_id === fileid)[0],
-        ...resList[0],
-        profile_pic: profilePic.filename,
-        favourites: resList[1],
-        comments: resList[2],
-        tags: resList[3]
-      };
+        let profilePic: any = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
+        if (!profilePic) {
+          profilePic = { filename: null };
+        }
 
-      const i = this.postsArray.findIndex(post => post.file_id === fileid);
-      this.postsArray[i] = updatedPost;
+        const updatedPost = {
+          ...this.profilePostsArray.filter(post => post.file_id === fileid)[0],
+          ...resList[0],
+          profile_pic: profilePic.filename,
+          favourites: resList[1],
+          comments: resList[2],
+          tags: resList[3]
+        };
 
-      // Check if all the missing data has been loaded into posts array
-      // and publish an event to upadte data in components
-      this.completeDetailsFetched++;
-      if (this.postsArray.length === this.completeDetailsFetched) {
-        console.log('Updated posts array: ', this.postsArray);
-        this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
+        const i = this.profilePostsArray.findIndex(post => post.file_id === fileid);
+        this.profilePostsArray[i] = updatedPost;
+
+        // Check if all the missing data has been loaded into posts array
+        // and publish an event to upadte data in components
+        this.completeDetailsFetchedForProfile++;
+        if (this.profilePostsArray.length === this.completeDetailsFetchedForProfile) {
+          console.log('Updated posts array: ', this.postsArray);
+          this.event.publish(EVENT_USER_MEDIA_ARRAY_UPDATE, this.profilePostsArray);
+        }
+
+      } else {
+
+        let profilePic: any = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
+        if (!profilePic) {
+          profilePic = { filename: null };
+        }
+
+        const updatedPost = {
+          ...this.postsArray.filter(post => post.file_id === fileid)[0],
+          ...resList[0],
+          profile_pic: profilePic.filename,
+          favourites: resList[1],
+          comments: resList[2],
+          tags: resList[3]
+        };
+
+        const i = this.postsArray.findIndex(post => post.file_id === fileid);
+        this.postsArray[i] = updatedPost;
+
+        // Check if all the missing data has been loaded into posts array
+        // and publish an event to upadte data in components
+        this.completeDetailsFetched++;
+        if (this.postsArray.length === this.completeDetailsFetched) {
+          console.log('Updated posts array: ', this.postsArray);
+          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
+        }
+
       }
     });
   }
@@ -115,9 +145,9 @@ export class MediaService {
     const data = {
       'file_id': fileid
     };
-    this.http.post(API_FAVORITES, data, this.requestToken()).subscribe(res => {
+    this.http.post(API_FAVOURITES, data, this.requestToken()).subscribe(res => {
       console.log(res);
-      this.http.get<Favourites[]>(API_FAVORITES + 'file/' + fileid).subscribe(favouritesData => {
+      this.http.get<Favourites[]>(API_FAVOURITES + 'file/' + fileid).subscribe(favouritesData => {
 
         const updatedPost = {
           ...this.postsArray.filter(post => post.file_id === fileid)[0],
@@ -137,9 +167,9 @@ export class MediaService {
   }
 
   removeLike(fileid: number) {
-    this.http.delete(API_FAVORITES + 'file/' + fileid, this.requestToken()).subscribe(res => {
+    this.http.delete(API_FAVOURITES + 'file/' + fileid, this.requestToken()).subscribe(res => {
       console.log(res);
-      this.http.get<Favourites[]>(API_FAVORITES + 'file/' + fileid).subscribe(favouritesData => {
+      this.http.get<Favourites[]>(API_FAVOURITES + 'file/' + fileid).subscribe(favouritesData => {
 
         const updatedPost = {
           ...this.postsArray.filter(post => post.file_id === fileid)[0],
@@ -164,24 +194,6 @@ export class MediaService {
       comment: comment
     };
     this.http.post(API_COMMENTS, data, this.requestToken()).subscribe(
-
-  initProfileData(userid: number) {
-    const postsData = this.http.get<Post[]>(API_MEDIA_USER + userid);
-    const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
-
-    forkJoin([postsData, profilePicData]).subscribe(resList => {
-      console.log(resList[0]);
-      this.postArray = resList[0];
-      this.event.publish(EVENT_USER_MEDIA_ARRAY_UPDATE, this.postArray);
-
-      console.log(resList[1]);
-      this.profilePicArray = resList[1];
-      this.event.publish(EVENT_PROFILE_PIC_ARRAY_UPDATE, this.profilePicArray);
-    });
-  }
-
-  getPostsSegment(start = 0, limit = 20) {
-    this.http.get<Post[]>(API_MEDIA, this.mediaParams(start, limit)).subscribe(
       res => {
         console.log(res);
         this.http.get<Comment[]>(API_COMMENTS + 'file/' + fileid).subscribe(commentsData => {
@@ -203,6 +215,30 @@ export class MediaService {
         this.event.publish(EVENT_SINGLE_MEDIA_UPDATE, null);
       }
     );
+  }
+
+  initProfileData(userid: number) {
+    // const postsData = this.http.get<Post[]>(API_MEDIA_USER + userid);
+    //const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
+
+    this.http.get<Post[]>(API_MEDIA_USER + userid, this.requestToken()).subscribe(res => {
+      console.log('Init profile data: ', res);
+      this.profilePostsArray = res;
+      this.completeDetailsFetchedForProfile = 0;
+      this.profilePostsArray.forEach(post => {
+        this.getCompleteDataForPost(post.file_id, post.user_id, true);
+      });
+      // this.event.publish(EVENT_USER_MEDIA_ARRAY_UPDATE, this.postsArray);
+
+      // console.log(resList[1]);
+      // this.profilePicArray = resList[1];
+      // this.event.publish(EVENT_PROFILE_PIC_ARRAY_UPDATE, this.profilePicArray);
+    });
+  }
+
+  getPostsSegment(start = 0, limit = 20) {
+    this.http.get<Post[]>(API_MEDIA, this.mediaParams(start, limit)).subscribe();
+
   }
 
   getUserDetails(userid: number) {
@@ -236,6 +272,11 @@ export class MediaService {
         'x-access-token': localStorage.getItem('token')
       })
     };
+  }
+
+  getProfilePostById(fileid: number) {
+    console.log('get profile post by id');
+    return this.profilePostsArray.filter(post => post.file_id === fileid)[0];
   }
 
   getPostById(fileid: number) {

@@ -1,5 +1,6 @@
 <app-user [user]="user"></app-user>
 <app-media-item-card
         *ngFor="let post of postArray"
-        [postData]="post">
+        [postId]="post.file_id"
+        [profileItem]="true">
 </app-media-item-card>

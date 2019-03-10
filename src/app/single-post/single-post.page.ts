@@ -23,6 +23,7 @@ export class SinglePostPage implements OnInit, OnDestroy {
   postLiked = false;
   postId: number;
   post: Post;
+  profilePost: boolean;
 
   user: User = JSON.parse(localStorage.getItem('user'));
 
@@ -36,6 +37,8 @@ export class SinglePostPage implements OnInit, OnDestroy {
     private toast: ToastController
   ) {
     this.postId = +this.route.snapshot.paramMap.get('postid');
+    this.profilePost = this.route.snapshot.queryParamMap.get('profilePost') === 'true';
+
     this.event.subscribe(EVENT_SINGLE_MEDIA_UPDATE, updatedPostData => {
       if (updatedPostData) {
         this.post = updatedPostData;
@@ -53,7 +56,12 @@ export class SinglePostPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.post = this.media.getPostById(this.postId);
+    if ( this.profilePost ) {
+      this.post = this.media.getProfilePostById(this.postId);
+    } else {
+      this.post = this.media.getPostById(this.postId);
+    }
+
     this.postLiked = this.post.favourites.filter(fav => fav.user_id === this.user.user_id).length > 0;
   }
 
