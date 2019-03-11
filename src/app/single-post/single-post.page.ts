@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE } from '../app-constants';
 import { User } from '../interfaces/user';
 import { Events, ToastController } from '@ionic/angular';
+import { PostLocationComponent } from '../components/post-location/post-location.component';
+import { Description } from '../interfaces/description';
 
 @Component({
   selector: 'app-single-post',
@@ -24,6 +26,7 @@ export class SinglePostPage implements OnInit, OnDestroy {
   postId: number;
   post: Post;
   profilePost: boolean;
+  showMap = false;
 
   user: User = JSON.parse(localStorage.getItem('user'));
 
@@ -34,7 +37,7 @@ export class SinglePostPage implements OnInit, OnDestroy {
     private media: MediaService,
     private route: ActivatedRoute,
     private event: Events,
-    private toast: ToastController
+    private toast: ToastController,
   ) {
     this.postId = +this.route.snapshot.paramMap.get('postid');
     this.profilePost = this.route.snapshot.queryParamMap.get('profilePost') === 'true';
@@ -115,6 +118,19 @@ export class SinglePostPage implements OnInit, OnDestroy {
       duration: 3000
     });
     toast.present();
+  }
+
+  async openMap() {
+    this.showMap = !this.showMap;
+  }
+
+  hasCoordinates() {
+    try {
+      const postContent = <Description>JSON.parse(this.post.description);
+      return postContent.hasOwnProperty('coordinates');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   ngOnDestroy() {

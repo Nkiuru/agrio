@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { SinglePostPage } from './single-post.page';
 import { PipesModule } from '../pipes/pipes.module';
 import { CommentComponent } from './comment/comment.component';
+import { PostLocationModule } from '../components/post-location/post-location.module';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     PipesModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PostLocationModule,
   ],
   declarations: [SinglePostPage, CommentComponent]
 })

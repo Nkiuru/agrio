@@ -17,7 +17,7 @@
       'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
     }"
   />
-
+  <app-post-location *ngIf="showMap" [post]="post"></app-post-location>
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
       <div class="profile-picture">
@@ -41,7 +41,10 @@
           <p>{{ post?.username ? post?.username : 'nousername' }}</p>
         </ion-text>
       </span>
-
+      <button *ngIf="hasCoordinates()" class="map-button" (click)="openMap($event)">
+        <img src="../../../assets/icon/marker.svg" alt=""/>
+        map
+      </button>
       <span class="media-likes" (click)="onLike()">
         <svg
           [ngClass]="{ 'heart-solid': postLiked }"
