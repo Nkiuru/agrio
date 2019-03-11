@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Upload a status update</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="submit()" [disabled]="!isValid()">
+        <ion-icon name="checkmark" style="color: #74D0BB" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="primary">
+  <div class="card">
+    <div class="card-picture" [hidden]="!fileUploaded">
+      <img id="preview" src="" alt="">
+    </div>
+    <div class="card-content">
+      <div class="card-header">
+        <div class="upload-container">
+          <h3>Post picture</h3>
+          <div class="upload-btn-wrapper">
+            <ion-button color="secondary"
+                        mode="ios"
+                        expand="block"
+                        shape="round"
+                        fill="outline">Upload photo
+            </ion-button>
+            <input type="file" name="myfile" accept="image/*" (change)="fileUpload($event)"/>
+          </div>
+        </div>
+      </div>
+      <ion-item>
+        <ion-label color="primary" position="floating">Title</ion-label>
+        <ion-input type="text" [(ngModel)]="title" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" position="floating">Whats on your mind?</ion-label>
+        <ion-textarea type="text" rows="3" [(ngModel)]="description.content.realDescription" required></ion-textarea>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,63 @@
+.card-content {
+  margin: 16px;
+  .card-header {
+    display: flex;
+    justify-items: center;
+    align-content: space-between;
+    margin-top: 8px;
+
+    h3 {
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-size: 14px;
+      color: #005944;
+      margin-bottom: 0;
+      flex: 1;
+    }
+  }
+
+  .upload-container {
+    display: flex;
+    align-items: center;
+    align-content: space-between;
+    h3 {
+      flex: 0;
+    }
+    .upload-btn-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      flex: 1;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+  }
+
+  ion-fab-button.clear {
+    --box-shadow: none;
+
+    &.clear {
+      --background: transparent;
+      --color: #4D8275;
+      --border-width: 0px;
+    }
+  }
+
+  ion-item {
+    ion-fab-button {
+      padding: 30px 0 0 32px;
+    }
+  }
+}
+
+img {
+  min-width: 100%;
+}
+
