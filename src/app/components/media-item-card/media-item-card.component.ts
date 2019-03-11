@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class MediaItemCardComponent implements OnInit {
   @Input() postId: number;
   @Input() profileItem: boolean;
+  @Input() likedItem: boolean;
 
   uploadsUrl = API_UPLOADS;
   postImageUrl: string;
@@ -27,15 +28,17 @@ export class MediaItemCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if ( this.profileItem ) {
+    if (this.profileItem) {
       this.post = this.media.getProfilePostById(this.postId);
+    } else if (this.likedItem) {
+      this.post = this.media.getLikedPostById(this.postId);
     } else {
       this.post = this.media.getPostById(this.postId);
     }
 
     // This bit is nesessary to keep the media item component like animation working
     const newLikeState = this.post.favourites.filter(fav => fav.user_id === this.user.user_id).length > 0;
-    const oldLikeState = ! newLikeState;
+    const oldLikeState = !newLikeState;
     this.postLiked = oldLikeState;
     setTimeout(() => {
       this.postLiked = newLikeState;
@@ -43,7 +46,7 @@ export class MediaItemCardComponent implements OnInit {
   }
 
   onLike() {
-    if ( this.postLiked ) {
+    if (this.postLiked) {
       this.media.removeLike(this.post.file_id);
     } else {
       this.media.addLike(this.post.file_id);
