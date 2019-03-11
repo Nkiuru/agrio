@@ -45,6 +45,7 @@ export class MediaService {
       this.postsArray = resList[0];
       this.profilePicArray = resList[1];
 
+      this.completeDetailsFetched = 0;
       this.postsArray.forEach(post => {
         this.getCompleteDataForPost(post.file_id, post.user_id);
       });
@@ -132,13 +133,13 @@ export class MediaService {
       .get<Post[]>(API_MEDIA, this.mediaParams(start, this.limit))
       .subscribe(
         res => {
+          
           console.log(res);
           this.postsArray.push(...res);
           res.forEach(post => {
             this.getCompleteDataForPost(post.file_id, post.user_id);
           });
 
-          // this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
         },
         err => {
           console.log(err.message);

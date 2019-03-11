@@ -75,6 +75,17 @@ export class HomePage implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    this.media.initData();
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
+  }
+
   async showToast() {
     const toast = await this.toastCtrl.create({
       message: 'Press back again to exit App',

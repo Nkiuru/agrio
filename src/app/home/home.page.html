@@ -1,6 +1,13 @@
 <app-toolbar [(searchTerm)]="search" [showSearch]="true"></app-toolbar>
 <ion-content padding color="primary">
-  <p>Search term: {{ search }}</p>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+    mode="ios"
+    color="light"
+    refreshingSpinner="crescent"
+    ></ion-refresher-content>
+  </ion-refresher>
 
   <app-welcome
     *ngIf="!welcomeDismissed"

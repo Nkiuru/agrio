@@ -1,3 +1,10 @@
+ion-refresher {
+  ion-icon,
+  ion-spinner {
+    color: white;
+  }
+}
+
 .load-trigger {
   display: flex;
   height: 100px;
