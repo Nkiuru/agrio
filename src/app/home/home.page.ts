@@ -10,7 +10,6 @@ import { EVENT_MEDIA_ARRAY_UPDATE } from '../app-constants';
   styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit, OnDestroy {
-  subscription: any;
   search = '';
   welcomeDismissed: boolean =
     localStorage.getItem('welcomeDismissed') === 'true';
@@ -55,26 +54,6 @@ export class HomePage implements OnInit, OnDestroy {
     lazyLoadPosts(this.loadTrigger.nativeElement);
   }
 
-  ionViewDidEnter() {
-    let lastTimeBackPress = 0;
-    const timePeriodToExit = 2000;
-    this.subscription = this.platform.backButton.subscribeWithPriority(
-      9999,
-      () => {
-        if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
-          navigator['app'].exitApp();
-        } else {
-          this.showToast().catch(err => console.log(err));
-          lastTimeBackPress = new Date().getTime();
-        }
-      }
-    );
-  }
-
-  ionViewWillLeave() {
-    this.subscription.unsubscribe();
-  }
-
   doRefresh(event) {
     console.log('Begin async operation');
 
@@ -84,15 +63,6 @@ export class HomePage implements OnInit, OnDestroy {
       console.log('Async operation has ended');
       event.target.complete();
     }, 1000);
-  }
-
-  async showToast() {
-    const toast = await this.toastCtrl.create({
-      message: 'Press back again to exit App',
-      duration: 3000,
-      position: 'bottom'
-    });
-    toast.present();
   }
 
   onWelcomeDismissed(dismissed: boolean) {
