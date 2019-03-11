@@ -12,4 +12,9 @@
     [postId]="post.file_id"
     [profileItem]="false"
   ></app-media-item-card>
+
+  <div #loadTrigger class="load-trigger">
+    <ion-spinner *ngIf="showSpinner" name="crescent" color="light"></ion-spinner>
+  </div>
+
 </ion-content>

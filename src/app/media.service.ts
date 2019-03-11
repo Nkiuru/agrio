@@ -13,7 +13,7 @@ import {
   EVENT_PROFILE_PIC_ARRAY_UPDATE,
   API_MEDIA_USER,
   EVENT_USER_MEDIA_ARRAY_UPDATE,
-  API_FAVOURITES,
+  API_FAVOURITES
 } from './app-constants';
 import { User } from './interfaces/user';
 import { forkJoin, Observable } from 'rxjs';
@@ -31,7 +31,7 @@ export class MediaService {
   private completeDetailsFetched = 0;
   private completeDetailsFetchedForProfile = 0;
 
-  private limit = 20;
+  private limit = 5;
 
   constructor(private http: HttpClient, private event: Events) {
   }
@@ -115,8 +115,10 @@ export class MediaService {
         // and publish an event to upadte data in components
         this.completeDetailsFetched++;
         if (this.postsArray.length === this.completeDetailsFetched) {
+          const postArrayCopy = this.postsArray.map(post => post);
           console.log('Updated posts array: ', this.postsArray);
-          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
+          console.log('posts array copy: ', postArrayCopy);
+          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, postArrayCopy);
         }
 
       }
@@ -131,8 +133,12 @@ export class MediaService {
       .subscribe(
         res => {
           console.log(res);
-          this.postsArray = res;
-          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
+          this.postsArray.push(...res);
+          res.forEach(post => {
+            this.getCompleteDataForPost(post.file_id, post.user_id);
+          });
+
+          // this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
         },
         err => {
           console.log(err.message);
