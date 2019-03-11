@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Description } from '../interfaces/description';
 import { UploadService } from '../upload.service';
 import { LoadingController, ToastController } from '@ionic/angular';
-import { PLACEHOLDER } from '../app-constants';
+import { PICTURE_POST, PLACEHOLDER, STATUS_POST } from '../app-constants';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -24,7 +24,7 @@ export class StatusUpdatePage implements OnInit {
 
   ngOnInit() {
     this.description = <Description>{
-      postType: 'pictureUpdate',
+      postType: PICTURE_POST,
       content: {
         realDescription: '',
       }
@@ -67,7 +67,7 @@ export class StatusUpdatePage implements OnInit {
       // tslint:disable-next-line
       this.file = new Blob([PLACEHOLDER], { type: 'image/jpg' });
       form.append('file', this.file);
-      this.description.postType = 'statusUpdate';
+      this.description.postType = STATUS_POST;
     }
     form.append('title', this.title);
     if (!this.enableCoordinates) {

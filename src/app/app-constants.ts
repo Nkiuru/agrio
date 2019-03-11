@@ -38,3 +38,7 @@ export const MS_DAY   = 86_400_000;
 export const MS_WEEK  = 604_800_000;
 export const MS_MONTH = 2_592_000_000;
 
+// Post types
+export const PICTURE_POST = 'pictureUpdate';
+export const STATUS_POST = 'statusUpdate';
+export const RECIPE_POST = 'recipe';

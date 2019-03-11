@@ -3,6 +3,7 @@ import { Description } from '../interfaces/description';
 import { UploadService } from '../upload.service';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { RECIPE_POST } from '../app-constants';
 
 @Component({
   selector: 'app-recipe',
@@ -21,7 +22,7 @@ export class RecipePage implements OnInit {
 
   ngOnInit() {
     this.description = <Description>{
-      postType: 'recipe',
+      postType: RECIPE_POST,
       content: {
         ingredients: [{ amount: 0, ingredient: '', unit: '' }],
         steps: [''],
