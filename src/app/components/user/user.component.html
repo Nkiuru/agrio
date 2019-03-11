@@ -1,8 +1,8 @@
 <div class="card" *ngIf="user">
   <div class="card-header">
-    <img src="../../../assets/img/default_profile_pic.jpg" alt="">
+    <img *ngIf="profilePic" [src]="profilePic" alt="">
     <div class="name-container">
-      <p class="name">{{ user.full_name || 'no full name added'}}</p>
+      <p class="name">{{ user.full_name || 'No full name'}}</p>
       <p class="username">{{ user.username }}</p>
     </div>
   </div>

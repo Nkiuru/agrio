@@ -3,6 +3,8 @@ import { User } from '../../interfaces/user';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { CreatePostPage } from '../../create-post/create-post.page';
+import { API_UPLOADS } from '../../app-constants';
+import { MediaService } from '../../media.service';
 
 @Component({
   selector: 'app-user',
@@ -12,14 +14,21 @@ import { CreatePostPage } from '../../create-post/create-post.page';
 export class UserComponent implements OnInit {
   @Input() user: User;
   isCurrentUser = false;
+  profilePic;
 
-  constructor(private router: Router, private modal: ModalController) {
+  constructor(private router: Router, private modal: ModalController, private media: MediaService) {
   }
 
   async ngOnInit() {
     let local;
     try {
       local = <User>JSON.parse(localStorage.getItem('user'));
+      const pic = this.media.getProfilePic(this.user.user_id);
+      if (pic) {
+        this.profilePic = API_UPLOADS + this.media.getProfilePic(this.user.user_id);
+      } else {
+        this.profilePic = '../../../assets/img/default_profile_pic.jpg';
+      }
     } catch (e) {
       console.log(e);
     }
