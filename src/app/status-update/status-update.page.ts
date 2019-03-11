@@ -23,7 +23,7 @@ export class StatusUpdatePage implements OnInit {
 
   ngOnInit() {
     this.description = <Description>{
-      postType: 'statusUpdate',
+      postType: 'pictureUpdate',
       content: {
         realDescription: '',
       }
@@ -53,6 +53,7 @@ export class StatusUpdatePage implements OnInit {
       // tslint:disable-next-line
       this.file = new Blob([PLACEHOLDER], { type: 'image/jpg' });
       form.append('file', this.file);
+      this.description.postType = 'statusUpdate';
     }
     form.append('title', this.title);
     form.append('description', JSON.stringify(this.description));
