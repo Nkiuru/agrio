@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
   }
 
   openLikedPosts() {
-    // open user's liked posts
+    this.router.navigate(['/liked-posts']).catch(err => console.log(err));
   }
 
   async openAddPost() {

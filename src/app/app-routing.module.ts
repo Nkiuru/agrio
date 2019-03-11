@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'user/:id', loadChildren: './user/user.module#UserPageModule' },
   { path: 'upload/status', loadChildren: './status-update/status-update.module#StatusUpdatePageModule' },
   { path: 'upload/recipe', loadChildren: './recipe/recipe.module#RecipePageModule' },
+  { path: 'liked-posts', loadChildren: './liked-posts/liked-posts.module#LikedPostsPageModule' },
 ];
 
 @NgModule({

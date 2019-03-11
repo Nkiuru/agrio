@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" style="color: #74D0BB" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Liked posts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="primary">
+  <app-media-item-card
+          *ngFor="let post of postArray"
+          [postId]="post.file_id"
+          [likedItem]="true">
+  </app-media-item-card>
+</ion-content>
