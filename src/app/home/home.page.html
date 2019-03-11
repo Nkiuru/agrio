@@ -9,6 +9,7 @@
 
   <app-media-item-card
     *ngFor="let post of postArray"
-    [postData]="post"
+    [postId]="post.file_id"
+    [profileItem]="false"
   ></app-media-item-card>
 </ion-content>

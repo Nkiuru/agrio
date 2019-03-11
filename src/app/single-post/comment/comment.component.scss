@@ -1,0 +1,33 @@
+.comment-container {
+  display: flex;
+  margin: 16px 0;
+
+  .profile-pic {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 50%;
+  }
+
+  .text-data-container {
+    flex-grow: 1;
+    margin-left: 16px;
+
+    .userinfo {
+      font-size: 13px;
+      color: #9B9B9B;
+      padding: 0;
+      margin: 0;
+    }
+    .comment {
+      color: #5E6664;
+      font-size: 16px;
+      padding: 0;
+      margin: 0;
+      margin-top: 8px;
+    }
+  }
+
+}

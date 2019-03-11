@@ -1,0 +1,169 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-icon slot="icon-only" name="more"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img
+    class="image"
+    [ngStyle]="{
+      'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
+    }"
+  />
+
+  <section class="media-text-content">
+    <section class="user-info-post-actions-wrapper">
+      <div class="profile-picture">
+        <div
+          class="picture"
+          *ngIf="post.profile_pic"
+          [ngStyle]="{
+            'background-image':
+              'url(' + (post.profile_pic | imageSize: 'small') + ')'
+          }"
+        ></div>
+      </div>
+
+      <span class="user-info">
+        <ion-text color="title">
+          <h2>
+            {{ post?.full_name ? post?.full_name : 'No Full Name' }}
+          </h2>
+        </ion-text>
+        <ion-text>
+          <p>{{ post?.username ? post?.username : 'nousername' }}</p>
+        </ion-text>
+      </span>
+
+      <span class="media-likes" (click)="onLike()">
+        <svg
+          [ngClass]="{ 'heart-solid': postLiked }"
+          class="heart-outline"
+          width="20"
+          height="17"
+          viewBox="-1 -1 22 19"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18.4134 1.66367C17.3781 0.590857 15.9575 0 14.413 0C13.2585 0 12.2012 0.348712 11.2704 1.03637C10.8008 1.38348 10.3752 1.80814 10 2.3038C9.62494 1.80829 9.19922 1.38348 8.7294 1.03637C7.79877 0.348712 6.74149 0 5.58701 0C4.04251 0 2.62177 0.590857 1.58646 1.66367C0.563507 2.72395 0 4.17244 0 5.74252C0 7.35852 0.630341 8.83778 1.98364 10.3979C3.19427 11.7935 4.93423 13.2102 6.94916 14.8507C7.63718 15.411 8.41705 16.046 9.22684 16.7224C9.44077 16.9015 9.71527 17 10 17C10.2846 17 10.5592 16.9015 10.7729 16.7227C11.5826 16.0461 12.363 15.4108 13.0513 14.8503C15.0659 13.2101 16.8059 11.7935 18.0165 10.3978C19.3698 8.83778 20 7.35852 20 5.74238C20 4.17244 19.4365 2.72395 18.4134 1.66367Z"
+          />
+        </svg>
+
+        <ion-text color="title">
+          <p>{{ post.favourites.length }}</p>
+        </ion-text>
+      </span>
+
+      <span class="media-comments">
+        <img src="../../../assets/svg/comment.svg" />
+        <ion-text color="title">
+          <p>{{ post.comments.length }}</p>
+        </ion-text>
+      </span>
+    </section>
+
+    <ion-text color="title">
+      <h2 class="media-title">
+        {{ post.title ? post.title : 'No post title' }}
+      </h2>
+    </ion-text>
+
+    <ion-text color="text">
+      <p class="media-description">
+        {{ post.description ? post.description : 'No description' }}
+      </p>
+    </ion-text>
+
+    <p class="timestamp">{{ post.time_added | moment }}</p>
+
+    <ul>
+      <li class="tag" *ngFor="let tag of post.tags">{{ tag.tag }}</li>
+    </ul>
+
+    <section class="comments-section">
+      <div class="header">
+        <img src="../../../assets/svg/comment.svg" />
+        <ion-text>
+          <p>
+            Comments <span class="bull">&bull;</span> {{ post.comments.length }}
+          </p>
+        </ion-text>
+        <span class="line"></span>
+      </div>
+
+      <div class="add-comment">
+        <div
+          class="comment-user-image"
+          [ngStyle]="{
+            'background-image':
+              'url(' +
+              (getProfilePic() | imageSize: 'small') +
+              '), ' +
+              'url(../../../assets/img/default_profile_pic.jpg)'
+          }"
+        ></div>
+        <p class="placeholder" (click)="presentCommentModal()">
+          Add comment...
+        </p>
+      </div>
+
+      <ul class="test-comments">
+        <app-comment
+          style="width: 100%"
+          *ngFor="let comment of post.comments"
+          [commentData]="comment"
+        ></app-comment>
+      </ul>
+    </section>
+  </section>
+</ion-content>
+
+<section #commentModal class="add-comment-modal" *ngIf="showCommentModal">
+  <div class="backdrop" (click)="dismissCommentModal()"></div>
+  <div class="add-comment-input">
+    <div
+      class="comment-user-image"
+      [ngStyle]="{
+        'background-image':
+          'url(' +
+          (getProfilePic() | imageSize: 'small') +
+          '), ' +
+          'url(../../../assets/img/default_profile_pic.jpg)'
+      }"
+      ></div>
+    <textarea
+      #commentModalInput
+      type="text"
+      rows="1"
+      class="input"
+      placeholder="Add comment..."
+      [(ngModel)]="inputVal"
+      (input)="chekcValidityAndResize()"
+    ></textarea>
+
+    <button
+      class="send-btn"
+      [disabled]="!commentValid"
+      (click)="onPostComment()"
+    >
+      <svg
+        [ngClass]="{ 'send-disabled': !commentValid }"
+        width="24"
+        height="20"
+        viewBox="0 0 24 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0 20L24 10L0 0V7.77778L17.1429 10L0 12.2222V20Z" />
+      </svg>
+    </button>
+  </div>
+</section>
