@@ -32,6 +32,14 @@
           </div>
         </div>
       </div>
+      <ion-item lines="none">
+        <ion-label>Show your location in the post</ion-label>
+        <ion-toggle [(ngModel)]="enableCoordinates" (ngModelChange)="askLocation()" type="ios"></ion-toggle>
+      </ion-item>
+      <p *ngIf="description.coordinates">({{ description.coordinates.lat }} , {{ description.coordinates.long }})</p>
+      <div class="card-header">
+        <h3>Post content</h3>
+      </div>
       <ion-item>
         <ion-label color="primary" position="floating">Title</ion-label>
         <ion-input type="text" [(ngModel)]="title" required></ion-input>

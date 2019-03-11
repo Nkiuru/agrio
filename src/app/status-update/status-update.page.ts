@@ -4,6 +4,7 @@ import { UploadService } from '../upload.service';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { PLACEHOLDER } from '../app-constants';
 import { Router } from '@angular/router';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-status-update',
@@ -18,7 +19,7 @@ export class StatusUpdatePage implements OnInit {
   fileUploaded = false;
   enableCoordinates = false;
 
-  constructor(private upload: UploadService, private loadingCtrl: LoadingController, private toast: ToastController, private router: Router) {
+  constructor(private upload: UploadService, private loadingCtrl: LoadingController, private toast: ToastController, private router: Router, private geolocation: Geolocation) {
   }
 
   ngOnInit() {
@@ -28,6 +29,19 @@ export class StatusUpdatePage implements OnInit {
         realDescription: '',
       }
     };
+  }
+
+  askLocation() {
+    if (this.enableCoordinates) {
+      this.geolocation.getCurrentPosition().then((resp) => {
+        this.description.coordinates = {
+          lat: resp.coords.latitude,
+          long: resp.coords.longitude
+        };
+      }).catch((error) => {
+        this.showToast(error);
+      });
+    }
   }
 
   fileUpload(event: Event) {
@@ -56,6 +70,9 @@ export class StatusUpdatePage implements OnInit {
       this.description.postType = 'statusUpdate';
     }
     form.append('title', this.title);
+    if (!this.enableCoordinates) {
+      delete this.description.coordinates;
+    }
     form.append('description', JSON.stringify(this.description));
     this.loading = await this.loadingCtrl.create({
       message: 'Uploading'

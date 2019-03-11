@@ -1,8 +1,8 @@
 export interface Description {
   postType: string;
   coordinates?: {
-    long: string,
-    lat: string,
+    long: number,
+    lat: number,
   };
   content: {
     realDescription: string,
