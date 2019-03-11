@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CreatePostPageModule } from './create-post/create-post.module';
+import { PostLocationModule } from './components/post-location/post-location.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +26,7 @@ import { CreatePostPageModule } from './create-post/create-post.module';
     HttpClientModule,
     BrowserAnimationsModule,
     CreatePostPageModule,
+    PostLocationModule,
   ],
   providers: [
     StatusBar,
