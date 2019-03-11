@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Description } from '../interfaces/description';
 import { UploadService } from '../upload.service';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { PICTURE_POST, PLACEHOLDER, STATUS_POST } from '../app-constants';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -18,8 +18,17 @@ export class StatusUpdatePage implements OnInit {
   loading: any;
   fileUploaded = false;
   enableCoordinates = false;
+  tags = [];
+  serverTags = [];
+  tag = '';
 
-  constructor(private upload: UploadService, private loadingCtrl: LoadingController, private toast: ToastController, private router: Router, private geolocation: Geolocation) {
+  constructor(
+    private upload: UploadService,
+    private loadingCtrl: LoadingController,
+    private toast: ToastController,
+    private router: Router,
+    private geolocation: Geolocation,
+    private nav: NavController) {
   }
 
   ngOnInit() {
@@ -29,6 +38,14 @@ export class StatusUpdatePage implements OnInit {
         realDescription: '',
       }
     };
+    this.upload.getTags().subscribe(data => {
+      this.serverTags = data;
+    });
+  }
+
+  addTag() {
+    this.tags.push(this.tag);
+    this.tag = '';
   }
 
   askLocation() {
@@ -87,10 +104,17 @@ export class StatusUpdatePage implements OnInit {
     this.upload.uploadFile(form).subscribe(data => {
       const id = data.file_id;
       this.upload.addTag(id, 'agrio').subscribe((tag) => {
-        this.loading.dismiss().catch((err) => console.log(err));
-        this.showToast('Status update added!').then(() => {
-          this.router.navigate(['tabs/home']);
-        }).catch(err => console.log(err));
+        const promises = [];
+        this.tags.forEach(tg => {
+          promises.push(this.upload.addTag(id, tg).toPromise());
+        });
+        Promise.all(promises).then(() => {
+          this.loading.dismiss().catch((err) => console.log(err));
+          this.showToast('Status update added!').then(() => {
+            this.nav.pop();
+            this.router.navigate(['tabs/home']);
+          }).catch(err => console.log(err));
+        });
       });
     }, error => {
       this.loading.dismiss();

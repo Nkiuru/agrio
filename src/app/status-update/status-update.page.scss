@@ -1,19 +1,72 @@
 .card-content {
   margin: 16px;
-  .card-header {
-    display: flex;
-    justify-items: center;
-    align-content: space-between;
-    margin-top: 8px;
 
+  ion-button {
+    margin-top: 0;
+  }
+
+  .toggle-container {
+    display: flex;
+    align-items: center;
+
+    ion-label {
+      margin-left: 16px;
+      font-size: 16px;
+    }
+  }
+
+  .card-header {
     h3 {
       font-style: normal;
       font-weight: 500;
       line-height: normal;
-      font-size: 14px;
-      color: #005944;
-      margin-bottom: 0;
+      font-size: 16px;
+      color: #003025;
+      margin-bottom: 8px;
       flex: 1;
+    }
+
+    ion-textarea {
+      border: 1px solid #4D8275;
+      box-sizing: border-box;
+      border-radius: 12px;
+    }
+
+    ion-fab-button {
+      border: 1px solid #4D8275;
+      box-sizing: border-box;
+      border-radius: 12px;
+      margin-right: 0;
+    }
+
+    ion-input {
+      border: 1px solid #4D8275;
+      box-sizing: border-box;
+      border-radius: 12px;
+      max-height: 40px;
+    }
+
+    .tag-actions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .tags {
+      display: inline-flex;
+      .tag {
+        color: #003025;
+        line-height: 17px;
+        border-radius: 13px;
+        border: 1px solid #003025;
+        padding-left: 8px;
+        padding-right: 8px;
+        margin-right: 4px;
+
+        p {
+          margin: 5px;
+        }
+      }
     }
   }
 
@@ -30,9 +83,11 @@
     display: flex;
     align-items: center;
     align-content: space-between;
+
     h3 {
       flex: 0;
     }
+
     .upload-btn-wrapper {
       position: relative;
       overflow: hidden;

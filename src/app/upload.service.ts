@@ -40,4 +40,13 @@ export class UploadService {
     };
     return this.http.delete(API_MEDIA + fileId, httpOptions);
   }
+
+  getTags() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'x-access-token': localStorage.getItem('token'),
+      })
+    };
+    return this.http.get<any>(API_TAGS, httpOptions);
+  }
 }

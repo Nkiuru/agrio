@@ -1,53 +1,62 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Upload a status update</ion-title>
+    <ion-title color="primary">Upload a status update</ion-title>
     <ion-buttons slot="primary">
       <ion-button (click)="submit()" [disabled]="!isValid()">
-        <ion-icon name="checkmark" style="color: #74D0BB" slot="icon-only"></ion-icon>
+        <ion-icon name="checkmark" color="primary" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding color="primary">
-  <div class="card">
-    <div class="card-picture" [hidden]="!fileUploaded">
-      <img id="preview" src="" alt="">
-    </div>
-    <div class="card-content">
-      <div class="card-header">
-        <div class="upload-container">
-          <h3>Post picture</h3>
-          <div class="upload-btn-wrapper">
-            <ion-button color="secondary"
-                        mode="ios"
-                        expand="block"
-                        shape="round"
-                        fill="outline">Upload photo
-            </ion-button>
-            <input type="file" name="myfile" accept="image/*" (change)="fileUpload($event)"/>
-          </div>
+<ion-content padding>
+  <img id="preview" src="" alt="">
+  <div class="card-content">
+    <div class="card-header">
+      <div class="upload-container">
+        <div class="upload-btn-wrapper">
+          <ion-button color="secondary"
+                      mode="ios"
+                      expand="block"
+                      shape="round"
+                      fill="clear">
+            <ion-icon name="add"></ion-icon>
+            ADD PHOTO
+          </ion-button>
+          <input type="file" name="myfile" accept="image/*" (change)="fileUpload($event)"/>
         </div>
       </div>
-      <ion-item lines="none">
-        <ion-label>Show your location in the post</ion-label>
-        <ion-toggle [(ngModel)]="enableCoordinates" (ngModelChange)="askLocation()" type="ios"></ion-toggle>
-      </ion-item>
-      <p *ngIf="description.coordinates">({{ description.coordinates.lat }} , {{ description.coordinates.long }})</p>
-      <div class="card-header">
-        <h3>Post content</h3>
+    </div>
+    <div class="toggle-container">
+      <ion-toggle [(ngModel)]="enableCoordinates" (ngModelChange)="askLocation()" mode="ios"></ion-toggle>
+      <ion-label color="primary">Include location</ion-label>
+    </div>
+    <p *ngIf="description.coordinates && enableCoordinates">({{ description.coordinates.lat }}
+      , {{ description.coordinates.long }})</p>
+    <div class="card-header">
+      <h3>Title</h3>
+      <ion-textarea rows="1" type="text" [(ngModel)]="title" required></ion-textarea>
+    </div>
+    <div class="card-header">
+      <h3>Description</h3>
+      <ion-textarea type="text" rows="3" [(ngModel)]="description.content.realDescription" required></ion-textarea>
+    </div>
+    <div class="card-header">
+      <h3>Tags (optional)</h3>
+      <div class="tags" *ngIf="tags.length > 0">
+        <div class="tag" *ngFor="let tag of tags">
+          <p>{{ tag }}</p>
+        </div>
       </div>
-      <ion-item>
-        <ion-label color="primary" position="floating">Title</ion-label>
-        <ion-input type="text" [(ngModel)]="title" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label color="primary" position="floating">Whats on your mind?</ion-label>
-        <ion-textarea type="text" rows="3" [(ngModel)]="description.content.realDescription" required></ion-textarea>
-      </ion-item>
+      <div class="tag-actions">
+        <ion-input type="text" [(ngModel)]="tag" minlength="3"></ion-input>
+        <ion-fab-button class="clear" size="small" (click)="addTag()" [disabled]="tag.length < 3">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </div>
     </div>
   </div>
 </ion-content>
