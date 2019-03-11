@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Platform, ToastController, Events } from '@ionic/angular';
 import { MediaService } from '../media.service';
 import { Post } from '../interfaces/post';
-import { EVENT_MEDIA_ARRAY_UPDATE, EVENT_MEDIA_SERVICE_INIT, EVENT_PROFILE_PIC_ARRAY_UPDATE } from '../app-constants';
+import { EVENT_MEDIA_ARRAY_UPDATE } from '../app-constants';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +18,10 @@ export class HomePage implements OnInit, OnDestroy {
   postArray: Post[];
   profilePicArray: Post[];
 
+  showSpinner = false;
+
+  @ViewChild('loadTrigger') loadTrigger: ElementRef;
+
   constructor(
     private platform: Platform,
     private toastCtrl: ToastController,
@@ -31,6 +35,24 @@ export class HomePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.media.initData();
+
+    const lazyLoadPosts = target => {
+      const io = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if ( entry.isIntersecting ) {
+            console.log('showing spinner');
+            this.showSpinner = true;
+            this.media.nextPostsSegment();
+          } else {
+            console.log('hiding spinner');
+            this.showSpinner = false;
+          }
+        });
+      });
+      io.observe(target);
+    };
+
+    lazyLoadPosts(this.loadTrigger.nativeElement);
   }
 
   ionViewDidEnter() {
@@ -51,6 +73,17 @@ export class HomePage implements OnInit, OnDestroy {
 
   ionViewWillLeave() {
     this.subscription.unsubscribe();
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    this.media.initData();
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
   }
 
   async showToast() {

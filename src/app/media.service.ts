@@ -13,7 +13,8 @@ import {
   EVENT_PROFILE_PIC_ARRAY_UPDATE,
   API_MEDIA_USER,
   EVENT_USER_MEDIA_ARRAY_UPDATE,
-  API_FAVOURITES, EVENT_LIKED_ARRAY_UPDATE,
+  API_FAVOURITES, 
+  EVENT_LIKED_ARRAY_UPDATE
 } from './app-constants';
 import { User } from './interfaces/user';
 import { forkJoin, Observable } from 'rxjs';
@@ -33,7 +34,7 @@ export class MediaService {
   private completeDetailsFetchedForProfile = 0;
   private completeDetailsFetchedForLikes = 0;
 
-  private limit = 20;
+  private limit = 5;
 
   constructor(private http: HttpClient, private event: Events) {
   }
@@ -47,6 +48,7 @@ export class MediaService {
       this.postsArray = resList[0];
       this.profilePicArray = resList[1];
 
+      this.completeDetailsFetched = 0;
       this.postsArray.forEach(post => {
         this.getCompleteDataForPost(post.file_id, post.user_id);
       });
@@ -143,8 +145,10 @@ export class MediaService {
         // and publish an event to upadte data in components
         this.completeDetailsFetched++;
         if (this.postsArray.length === this.completeDetailsFetched) {
+          const postArrayCopy = this.postsArray.map(post => post);
           console.log('Updated posts array: ', this.postsArray);
-          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
+          console.log('posts array copy: ', postArrayCopy);
+          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, postArrayCopy);
         }
 
       }
@@ -175,9 +179,13 @@ export class MediaService {
       .get<Post[]>(API_MEDIA, this.mediaParams(start, this.limit))
       .subscribe(
         res => {
+          
           console.log(res);
-          this.postsArray = res;
-          this.event.publish(EVENT_MEDIA_ARRAY_UPDATE, this.postsArray);
+          this.postsArray.push(...res);
+          res.forEach(post => {
+            this.getCompleteDataForPost(post.file_id, post.user_id);
+          });
+
         },
         err => {
           console.log(err.message);

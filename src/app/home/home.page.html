@@ -1,6 +1,13 @@
 <app-toolbar [(searchTerm)]="search" [showSearch]="true"></app-toolbar>
 <ion-content padding color="primary">
-  <p>Search term: {{ search }}</p>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+    mode="ios"
+    color="light"
+    refreshingSpinner="crescent"
+    ></ion-refresher-content>
+  </ion-refresher>
 
   <app-welcome
     *ngIf="!welcomeDismissed"
@@ -12,4 +19,9 @@
     [postId]="post.file_id"
     [profileItem]="false"
   ></app-media-item-card>
+
+  <div #loadTrigger class="load-trigger">
+    <ion-spinner *ngIf="showSpinner" name="crescent" color="light"></ion-spinner>
+  </div>
+
 </ion-content>
