@@ -1,94 +1,97 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-title>Upload a recipe</ion-title>
-        <ion-buttons slot="primary">
-            <ion-button (click)="submit()" [disabled]="!isValid()">
-                <ion-icon name="checkmark" style="color: #74D0BB" slot="icon-only"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title  color="primary">Upload a recipe</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="submit()" [disabled]="!isValid()">
+        <ion-icon name="checkmark"  color="primary" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding color="primary">
-    <div class="card">
-        <div class="card-picture" [hidden]="!fileUploaded">
-            <img id="preview" src="" alt="">
+<ion-content padding>
+  <img [hidden]="!fileUploaded" id="preview" src="" alt="">
+  <div class="card-content">
+    <div class="card-header">
+      <div class="upload-container">
+        <div class="upload-btn-wrapper">
+          <ion-button color="secondary"
+                      mode="ios"
+                      expand="block"
+                      shape="round"
+                      fill="clear">
+            <ion-icon name="add"></ion-icon>
+            ADD PHOTO
+          </ion-button>
+          <input type="file" name="myfile" accept="image/*" (change)="fileUpload($event)"/>
         </div>
-        <div class="card-content">
-            <div class="card-header">
-                <div class="upload-container">
-                    <h3>Recipe Picture</h3>
-                    <div class="upload-btn-wrapper">
-                        <ion-button color="secondary"
-                                    mode="ios"
-                                    expand="block"
-                                    shape="round"
-                                    fill="outline">Upload photo
-                        </ion-button>
-                        <input type="file" name="myfile" accept="image/*" (change)="fileUpload($event)"/>
-                    </div>
-                </div>
-            </div>
-            <div class="card-header">
-                <h3>Title</h3>
-            </div>
-            <ion-item>
-                <ion-label color="primary" position="floating">Post title</ion-label>
-                <ion-input type="text" [(ngModel)]="title" required></ion-input>
-            </ion-item>
-            <div class="card-header">
-                <h3>Recipe Description</h3>
-            </div>
-            <ion-item>
-                <ion-label color="primary" position="floating">Short summary of the recipe</ion-label>
-                <ion-textarea [(ngModel)]="description.content.realDescription" required></ion-textarea>
-            </ion-item>
-
-            <div class="card-header">
-                <h3>Ingredients</h3>
-                <ion-fab-button class="clear" (click)="addIngredient()">
-                    <ion-icon name="add"></ion-icon>
-                </ion-fab-button>
-            </div>
-            <div *ngFor="let ingredient of description.content.ingredients;let i = index" [attr.data-index]="i">
-                <ion-item>
-                    <ion-label color="primary" position="floating">Ingredient</ion-label>
-                    <ion-input type="text" [(ngModel)]="ingredient.ingredient" required></ion-input>
-                    <ion-fab-button slot="end" class="clear" (click)="removeIngredient(i)">
-                        <ion-icon name="close" color="danger"></ion-icon>
-                    </ion-fab-button>
-                </ion-item>
-                <ion-item lines="none">
-                    <ion-item>
-                        <ion-label type="number" color="primary" position="floating">Amount</ion-label>
-                        <ion-input [(ngModel)]="ingredient.amount" min="1" required></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label type="text" color="primary" position="floating">Unit</ion-label>
-                        <ion-input [(ngModel)]="ingredient.unit" required></ion-input>
-                    </ion-item>
-                </ion-item>
-            </div>
-
-            <div class="card-header">
-                <h3>Instructions</h3>
-                <ion-fab-button class="clear" (click)="addStep()">
-                    <ion-icon name="add"></ion-icon>
-                </ion-fab-button>
-            </div>
-            <div *ngFor="let step of description.content.steps;let i = index" [attr.data-index]="i">
-                <ion-item>
-                    <ion-label color="primary" position="floating">Step {{ i + 1 }}</ion-label>
-                    <ion-textarea type="text" [(ngModel)]="step" required></ion-textarea>
-                    <ion-fab-button slot="end" class="clear" (click)="removeStep(i)">
-                        <ion-icon name="close" color="danger"></ion-icon>
-                    </ion-fab-button>
-                </ion-item>
-            </div>
-
-        </div>
+      </div>
     </div>
+    <div class="card-header">
+      <h3>Recipe name</h3>
+      <ion-input type="text" [(ngModel)]="title" required></ion-input>
+    </div>
+    <div class="card-header">
+      <h3>Description</h3>
+      <ion-textarea [(ngModel)]="description.content.realDescription" required></ion-textarea>
+    </div>
+    <div class="card-header inline">
+      <h3>Ingredients</h3>
+      <ion-fab-button class="clear" (click)="addIngredient()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div *ngFor="let ingredient of description.content.ingredients;let i = index" [attr.data-index]="i">
+      <ion-item>
+        <ion-label color="primary" position="floating">Ingredient</ion-label>
+        <ion-input type="text" [(ngModel)]="ingredient.ingredient" required></ion-input>
+        <ion-fab-button slot="end" class="clear" (click)="removeIngredient(i)">
+          <ion-icon name="close" color="danger"></ion-icon>
+        </ion-fab-button>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-item style="padding-right: 4px">
+          <ion-label type="number" color="primary" position="floating">Amount</ion-label>
+          <ion-input [(ngModel)]="ingredient.amount" min="1" required></ion-input>
+        </ion-item>
+        <ion-item style="padding-left: 4px">
+          <ion-label type="text" color="primary" position="floating">Unit</ion-label>
+          <ion-input [(ngModel)]="ingredient.unit" required></ion-input>
+        </ion-item>
+      </ion-item>
+    </div>
+
+    <div class="card-header inline">
+      <h3>Instructions</h3>
+      <ion-fab-button class="clear" (click)="addStep()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div *ngFor="let step of description.content.steps;let i = index" [attr.data-index]="i">
+      <ion-item>
+        <ion-label color="primary" position="floating">Step {{ i + 1 }}</ion-label>
+        <ion-textarea type="text" [(ngModel)]="step" required></ion-textarea>
+        <ion-fab-button slot="end" class="clear" (click)="removeStep(i)">
+          <ion-icon name="close" color="danger"></ion-icon>
+        </ion-fab-button>
+      </ion-item>
+    </div>
+    <div class="card-header">
+      <h3>Tags (optional)</h3>
+      <div class="tags" *ngIf="tags.length > 0">
+        <div class="tag" *ngFor="let tag of tags">
+          <p>{{ tag }}</p>
+        </div>
+      </div>
+      <div class="tag-actions">
+        <ion-input type="text" [(ngModel)]="tag" minlength="3"></ion-input>
+        <ion-fab-button class="clear border" size="small" (click)="addTag()" [disabled]="tag.length < 3">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </div>
+    </div>
+  </div>
 </ion-content>

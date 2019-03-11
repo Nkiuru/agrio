@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Description } from '../interfaces/description';
 import { UploadService } from '../upload.service';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RECIPE_POST } from '../app-constants';
 
@@ -16,8 +16,15 @@ export class RecipePage implements OnInit {
   file: File;
   title = '';
   fileUploaded;
+  tags = [];
+  tag = '';
 
-  constructor(private upload: UploadService, private loadingCtrl: LoadingController, private toast: ToastController, private router: Router) {
+  constructor(
+    private upload: UploadService,
+    private loadingCtrl: LoadingController,
+    private toast: ToastController,
+    private router: Router,
+    private nav: NavController) {
   }
 
   ngOnInit() {
@@ -29,6 +36,11 @@ export class RecipePage implements OnInit {
         realDescription: '',
       }
     };
+  }
+
+  addTag() {
+    this.tags.push(this.tag);
+    this.tag = '';
   }
 
   fileUpload(event: Event) {
@@ -64,10 +76,17 @@ export class RecipePage implements OnInit {
     this.upload.uploadFile(form).subscribe(data => {
       const id = data.file_id;
       this.upload.addTag(id, 'agrio').subscribe((tag) => {
-        this.loading.dismiss().catch((err) => console.log(err));
-        this.showToast('Recipe added!').then(() => {
-          this.router.navigate(['tabs/home']);
-        }).catch(err => console.log(err));
+        const promises = [];
+        this.tags.forEach(tg => {
+          promises.push(this.upload.addTag(id, tg).toPromise());
+        });
+        Promise.all(promises).then(() => {
+          this.loading.dismiss().catch((err) => console.log(err));
+          this.showToast('Status update added!').then(() => {
+            this.nav.pop();
+            this.router.navigate(['tabs/home']);
+          }).catch(err => console.log(err));
+        });
       });
     }, error => {
       this.loading.dismiss();
