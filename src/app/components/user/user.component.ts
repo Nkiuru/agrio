@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../../interfaces/user';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { CreatePostPage } from '../../create-post/create-post.page';
 
 @Component({
   selector: 'app-user',
@@ -11,7 +13,7 @@ export class UserComponent implements OnInit {
   @Input() user: User;
   isCurrentUser = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private modal: ModalController) {
   }
 
   async ngOnInit() {
@@ -34,8 +36,13 @@ export class UserComponent implements OnInit {
     // open user's liked posts
   }
 
-  openAddPost() {
-    // open add post page
+  async openAddPost() {
+    const modal = await this.modal.create({
+      component: CreatePostPage,
+      showBackdrop: true,
+      cssClass: 'post-modal'
+    });
+    return await modal.present();
   }
 
 }

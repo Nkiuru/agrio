@@ -90,3 +90,12 @@ ion-button {
   overflow: hidden;
   margin-bottom: 24px;
 }
+
+.post-modal {
+  background: rgba(0, 0, 0, 0.5) !important;
+  padding: 60% 10% !important;
+
+  .modal-wrapper {
+    border-radius: 20px;
+  }
+}
