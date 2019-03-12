@@ -89,7 +89,9 @@
         width: 36px;
         height: 36px;
         text-align: center;
-        line-height: 39px;
+        line-height: 35px;
+        flex-shrink: 0;
+        font-size: 14px;
       }
 
       .step {
