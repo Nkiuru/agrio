@@ -123,7 +123,7 @@ export class StatusUpdatePage implements OnInit {
   }
 
   isValid() {
-    return this.title.length > 0 && this.description.content.realDescription.length > 0;
+    return this.title.length > 0;
   }
 
   async showToast(message: string) {
