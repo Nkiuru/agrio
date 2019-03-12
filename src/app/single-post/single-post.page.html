@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-buttons slot="end" (click)="presentPopover($event)">
+    <ion-buttons *ngIf="post.user_id === user.user_id" slot="end" (click)="presentPopover($event)">
       <ion-icon slot="icon-only" name="more"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
