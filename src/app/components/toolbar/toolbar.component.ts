@@ -11,6 +11,7 @@ export class ToolbarComponent implements OnInit {
   @Input() searchTerm: string;
   @Input() showBackButton: boolean;
   @Input() mapSearch: boolean;
+  @Input() focusOnSearch: boolean;
   @Output() searchTermChange = new EventEmitter();
   isSearchPage: boolean;
   @ViewChild('search') search;
@@ -20,7 +21,7 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit() {
     this.isSearchPage = this.router.isActive('search', false);
-    if (this.isSearchPage) {
+    if (this.isSearchPage && this.focusOnSearch) {
       setTimeout(() => {
         this.search.setFocus();
       }, 250);

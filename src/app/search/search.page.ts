@@ -14,6 +14,7 @@ export class SearchPage implements OnInit, OnDestroy {
   searchTerm = '';
   tag: string;
   postArray: Post[];
+  focusOnSearch = false;
 
   constructor(private route: ActivatedRoute, private media: MediaService, private event: Events) {
   }
@@ -21,10 +22,14 @@ export class SearchPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.tag = params.tag;
-      this.media.initTagPosts(this.tag);
-      this.event.subscribe(EVENT_TAG_ARRAY_UPDATE, array => {
-        this.postArray = array;
-      });
+      if (this.tag) {
+        this.media.initTagPosts(this.tag);
+        this.event.subscribe(EVENT_TAG_ARRAY_UPDATE, array => {
+          this.postArray = array;
+        });
+      } else {
+        this.focusOnSearch = true;
+      }
     });
   }
 
