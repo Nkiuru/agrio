@@ -28,18 +28,10 @@ export class SettingsPage implements OnInit {
     private loadingCtrl: LoadingController,
     private upload: UploadService,
     private media: MediaService) {
-    event.subscribe(EVENT_PROFILE_PIC_ARRAY_UPDATE, array => {
-      const pic = this.media.getProfilePic(this.user.user_id);
-      if (pic) {
-        this.profilePic = API_UPLOADS + this.media.getProfilePic(this.user.user_id);
-      } else {
-        this.profilePic = '../../../assets/img/default_profile_pic.jpg';
-      }
-    });
   }
 
   ngOnInit() {
-    this.media.initData();
+
     try {
       this.user = <User>JSON.parse(localStorage.getItem('user'));
       this.username = this.user.username;
@@ -51,6 +43,12 @@ export class SettingsPage implements OnInit {
         this.user = data;
         localStorage.setItem('user', JSON.stringify(this.user));
       });
+    }
+    const pic = this.media.getProfilePic(this.user.user_id);
+    if (pic) {
+      this.profilePic = API_UPLOADS + pic;
+    } else {
+      this.profilePic = '../../../assets/img/default_profile_pic.jpg';
     }
   }
 

@@ -1,6 +1,7 @@
 <div class="card" *ngIf="user">
   <div class="card-header">
-    <img *ngIf="profilePic" [src]="profilePic" alt="">
+    <img *ngIf="media.getProfilePic(user.user_id)" [src]="url + media.getProfilePic(user.user_id)" alt="">
+    <img *ngIf="!media.getProfilePic(user.user_id)" [src]="'../../../assets/img/default_profile_pic.jpg'" alt="">
     <div class="name-container">
       <p class="name">{{ user.full_name || 'No full name'}}</p>
       <p class="username">{{ user.username }}</p>

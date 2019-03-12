@@ -14,7 +14,7 @@ import { MediaService } from '../../media.service';
 export class UserComponent implements OnInit {
   @Input() user: User;
   isCurrentUser = false;
-  profilePic;
+  url = API_UPLOADS;
 
   constructor(private router: Router, private modal: ModalController, private media: MediaService) {
   }
@@ -23,12 +23,6 @@ export class UserComponent implements OnInit {
     let local;
     try {
       local = <User>JSON.parse(localStorage.getItem('user'));
-      const pic = this.media.getProfilePic(this.user.user_id);
-      if (pic) {
-        this.profilePic = API_UPLOADS + this.media.getProfilePic(this.user.user_id);
-      } else {
-        this.profilePic = '../../../assets/img/default_profile_pic.jpg';
-      }
     } catch (e) {
       console.log(e);
     }
