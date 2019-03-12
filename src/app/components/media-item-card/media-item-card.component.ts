@@ -30,6 +30,7 @@ export class MediaItemCardComponent implements OnInit {
   post: Post;
   params = {};
   postMeta: Description;
+  agrioPost: boolean;
 
   user: User = JSON.parse(localStorage.getItem('user'));
 
@@ -64,7 +65,12 @@ export class MediaItemCardComponent implements OnInit {
       this.postLiked = newLikeState;
     }, 10);
 
-    this.postMeta = <Description>JSON.parse(this.post.description);
+    try {
+      this.postMeta = <Description>JSON.parse(this.post.description);
+      this.agrioPost = this.postMeta.hasOwnProperty('content');
+    } catch (e) {
+      this.agrioPost = false;
+    }
   }
 
   onLike() {
