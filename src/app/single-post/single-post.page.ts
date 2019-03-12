@@ -27,6 +27,7 @@ export class SinglePostPage implements OnInit, OnDestroy {
   post: Post;
   profilePost: boolean;
   showMap = false;
+  showCoordinates = false;
 
   user: User = JSON.parse(localStorage.getItem('user'));
 
@@ -64,7 +65,7 @@ export class SinglePostPage implements OnInit, OnDestroy {
     } else {
       this.post = this.media.getPostById(this.postId);
     }
-
+    this.hasCoordinates();
     this.postLiked = this.post.favourites.filter(fav => fav.user_id === this.user.user_id).length > 0;
   }
 
@@ -127,10 +128,8 @@ export class SinglePostPage implements OnInit, OnDestroy {
   hasCoordinates() {
     try {
       const postContent = <Description>JSON.parse(this.post.description);
-      return postContent.hasOwnProperty('coordinates');
-    } catch (e) {
-      console.log(e);
-    }
+      this.showCoordinates = postContent.hasOwnProperty('coordinates');
+    } catch (e) {}
   }
 
   ngOnDestroy() {

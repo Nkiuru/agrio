@@ -41,7 +41,7 @@
           <p>{{ post?.username ? post?.username : 'nousername' }}</p>
         </ion-text>
       </span>
-      <button *ngIf="hasCoordinates()" class="map-button" (click)="openMap($event)">
+      <button *ngIf="showCoordinates" class="map-button" (click)="openMap($event)">
         <img src="../../../assets/icon/marker.svg" alt=""/>
         map
       </button>
