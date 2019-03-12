@@ -3,7 +3,7 @@ import { Post } from '../interfaces/post';
 import { StatusBarService } from '../status-bar.service';
 import { MediaService } from '../media.service';
 import { ActivatedRoute } from '@angular/router';
-import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE } from '../app-constants';
+import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE, RECIPE_POST, PICTURE_POST, STATUS_POST } from '../app-constants';
 import { User } from '../interfaces/user';
 import { Events, ToastController } from '@ionic/angular';
 import { PostLocationComponent } from '../components/post-location/post-location.component';
@@ -25,6 +25,12 @@ export class SinglePostPage implements OnInit, OnDestroy {
   postLiked = false;
   postId: number;
   post: Post;
+  postMeta: Description;
+  type = {
+    recipe: RECIPE_POST,
+    picture: PICTURE_POST,
+    status: STATUS_POST
+  };
   profilePost: boolean;
   likedPost: boolean;
   tagPost: boolean;
@@ -75,6 +81,8 @@ export class SinglePostPage implements OnInit, OnDestroy {
     }
     this.hasCoordinates();
     this.postLiked = this.post.favourites.filter(fav => fav.user_id === this.user.user_id).length > 0;
+
+    this.postMeta = <Description>JSON.parse(this.post.description);
   }
 
   ionViewWillEnter() {

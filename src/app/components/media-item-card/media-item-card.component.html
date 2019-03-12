@@ -1,12 +1,17 @@
 <div class=" card media-item-card">
   <div
+    *ngIf="
+      postMeta.postType === type.picture || postMeta.postType === type.recipe
+    "
     class="image"
     [ngStyle]="{
       'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
     }"
     [routerLink]="['/single-post', post.file_id]"
     [queryParams]="params"
-    ></div>
+  >
+  <img *ngIf="postMeta.postType === type.recipe" class="recipe-label" src="../../../assets/svg/recipe_icon.svg">
+</div>
 
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
@@ -15,7 +20,8 @@
           class="picture"
           *ngIf="post.profile_pic"
           [ngStyle]="{
-            'background-image': 'url(' + (post.profile_pic | imageSize: 'small') + ')'
+            'background-image':
+              'url(' + (post.profile_pic | imageSize: 'small') + ')'
           }"
         ></div>
       </div>
@@ -67,14 +73,15 @@
 
     <ion-text color="text">
       <p
+        [routerLink]="['/single-post', post.file_id]"
+        [queryParams]="params"
         class="media-description"
         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
       >
-        {{ post.description ? post.description : 'No description' }}
+        {{ postMeta.content.realDescription || 'no description' }}
       </p>
     </ion-text>
 
     <p class="timestamp">{{ post.time_added | moment }}</p>
-
   </section>
 </div>

@@ -2,9 +2,10 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Post } from 'src/app/interfaces/post';
 import { MediaService } from 'src/app/media.service';
 import { User } from 'src/app/interfaces/user';
-import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE } from '../../app-constants';
+import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE, RECIPE_POST, PICTURE_POST, STATUS_POST } from '../../app-constants';
 import { Events } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Description } from 'src/app/interfaces/description';
 
 
 @Component({
@@ -18,11 +19,17 @@ export class MediaItemCardComponent implements OnInit {
   @Input() likedItem: boolean;
   @Input() tagItem: boolean;
 
+  type = {
+    recipe: RECIPE_POST,
+    picture: PICTURE_POST,
+    status: STATUS_POST
+  };
   uploadsUrl = API_UPLOADS;
   postImageUrl: string;
   postLiked: boolean;
   post: Post;
   params = {};
+  postMeta: Description;
 
   user: User = JSON.parse(localStorage.getItem('user'));
 
@@ -56,6 +63,8 @@ export class MediaItemCardComponent implements OnInit {
     setTimeout(() => {
       this.postLiked = newLikeState;
     }, 10);
+
+    this.postMeta = <Description>JSON.parse(this.post.description);
   }
 
   onLike() {
