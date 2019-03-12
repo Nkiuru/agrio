@@ -14,5 +14,37 @@
       "lgn": 24.98
     },
     "description": "Shopping maze REDI"
+  },
+  {
+    "title": "Vegetarian cafe",
+    "position": {
+      "lat": 60.197814,
+      "lgn": 24.875614
+    },
+    "description": "Vegetarian & vegan local food"
+  },
+  {
+    "title": "Hakaniemi market hall",
+    "position": {
+      "lat": 60.179992,
+      "lgn": 24.951420
+    },
+    "description": "Local food hall with lots of food stores & stands"
+  },
+  {
+    "title": "Pupu organic restaurant",
+    "position": {
+      "lat": 60.169504,
+      "lgn": 24.929999
+    },
+    "description": "Restaurant serving only organic food"
+  },
+  {
+    "title": "Organic food store",
+    "position": {
+      "lat": 60.181018,
+      "lgn": 24.950273
+    },
+    "description": "Local organic food store"
   }
 ]
