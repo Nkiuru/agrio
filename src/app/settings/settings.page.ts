@@ -91,6 +91,7 @@ export class SettingsPage implements OnInit {
     this.upload.uploadFile(form).subscribe(data => {
       const id = data.file_id;
       this.upload.addTag(id, 'profile').subscribe((tag) => {
+        this.media.initData();
         this.loading.dismiss().catch((err) => console.log(err));
         this.showToast('Picture updated').catch(err => console.log(err));
       });
