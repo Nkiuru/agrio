@@ -15,7 +15,7 @@ export class PostLocationComponent implements OnInit {
 
   constructor(private platform: Platform) {
     if (this.platform.is('hybrid')) {
-      Environment.setBackgroundColor('#005944');
+      Environment.setBackgroundColor('#ffffff');
     }
   }
 
