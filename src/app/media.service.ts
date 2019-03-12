@@ -184,9 +184,17 @@ export class MediaService {
   }
 
   initLikedData() {
-    this.http.get<Post[]>(API_FAVOURITES, this.requestToken()).subscribe(res => {
+    const requests = [];
+    requests.push(this.http.get<Post[]>(API_FAVOURITES, this.requestToken()));
+    if (!this.profilePicArray) {
+      requests.push(this.http.get<Post[]>(API_TAGS + 'profile'));
+    }
+    forkJoin(requests).subscribe(res => {
       console.log('Init liked data: ', res);
-      const ids = res;
+      const ids = res[0];
+      if (res.length > 1) {
+        this.profilePicArray = res[1];
+      }
       const promises = [];
       this.completeDetailsFetchedForLikes = 0;
       ids.forEach(post => {
@@ -202,9 +210,16 @@ export class MediaService {
   }
 
   initTagPosts(tag: string) {
-    this.http.get<Post[]>(API_TAGS + tag, this.requestToken()).subscribe((data) => {
-      console.log(data);
-      this.tagPostsArray = data.reverse();
+    const requests = [];
+    requests.push(this.http.get<Post[]>(API_TAGS + tag, this.requestToken()));
+    if (!this.profilePicArray) {
+      requests.push(this.http.get<Post[]>(API_TAGS + 'profile'));
+    }
+    forkJoin(requests).subscribe((data) => {
+      this.tagPostsArray = data[0].reverse();
+      if (data.length > 1) {
+        this.profilePicArray = data[1];
+      }
       this.completeDetailsFetchedForTags = 0;
       this.tagPostsArray.forEach((post) => {
         this.getCompleteDataForPost(post.file_id, post.user_id, false, false, true);
@@ -310,12 +325,17 @@ export class MediaService {
   }
 
   initProfileData(userid: number) {
-    // const postsData = this.http.get<Post[]>(API_MEDIA_USER + userid);
-    //const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
-
-    this.http.get<Post[]>(API_MEDIA_USER + userid, this.requestToken()).subscribe(res => {
+    const requests = [];
+    requests.push(this.http.get<Post[]>(API_MEDIA_USER + userid, this.requestToken()));
+    if (!this.profilePicArray) {
+      requests.push(this.http.get<Post[]>(API_TAGS + 'profile'));
+    }
+    forkJoin(requests).subscribe(res => {
       console.log('Init profile data: ', res);
-      this.profilePostsArray = res.reverse();
+      this.profilePostsArray = res[0].reverse();
+      if (res.length > 1) {
+        this.profilePicArray = res[1];
+      }
       this.completeDetailsFetchedForProfile = 0;
       this.profilePostsArray.forEach(post => {
         this.getCompleteDataForPost(post.file_id, post.user_id, true);
@@ -328,6 +348,10 @@ export class MediaService {
     });
   }
 
+  initProfilePicture() {
+    return this.http.get<Post[]>(API_TAGS + 'profile');
+  }
+
   getPostsSegment(start = 0, limit = 20) {
     this.http.get<Post[]>(API_MEDIA, this.mediaParams(start, limit)).subscribe();
 
@@ -338,12 +362,24 @@ export class MediaService {
   }
 
   getProfilePic(userid: number) {
-    return this.profilePicArray
-      .filter(post => post.user_id === userid)
-      .map(post => post.filename)[0];
+    if (!this.profilePicArray) {
+      this.initProfilePicture().subscribe(data => {
+        this.profilePicArray = data;
+        return this.profilePicArray
+          .filter(post => post.user_id === userid)
+          .map(post => post.filename)[0];
+      });
+    } else {
+      return this.profilePicArray
+        .filter(post => post.user_id === userid)
+        .map(post => post.filename)[0];
+    }
   }
 
   getProfilePicId(userid: number) {
+    if (!this.profilePicArray) {
+      return;
+    }
     return this.profilePicArray
       .filter(post => post.user_id === userid)
       .map(post => post.file_id)[0];
@@ -368,22 +404,39 @@ export class MediaService {
 
   getProfilePostById(fileid: number) {
     console.log('get profile post by id');
+    if (!this.profilePostsArray) {
+      return;
+    }
     return this.profilePostsArray.filter(post => post.file_id === fileid)[0];
   }
 
   getPostById(fileid: number) {
+    if (!this.postsArray) {
+      this.initData();
+      return;
+    }
     return this.postsArray.filter(post => post.file_id === fileid)[0];
   }
 
   getLikedPostById(fileid: number) {
+    if (!this.likedPostsArray) {
+      return;
+    }
     return this.likedPostsArray.filter(post => post.file_id === fileid)[0];
   }
 
   getTagPostById(fileid: number) {
+    if (!this.tagPostsArray) {
+      return;
+    }
     return this.tagPostsArray.filter(post => post.file_id === fileid)[0];
   }
 
   getProfilePicById(userid: number): string {
+    console.log(this.profilePicArray);
+    if (!this.profilePicArray) {
+      return;
+    }
     const filename = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
     if (filename) {
       return filename.filename;
