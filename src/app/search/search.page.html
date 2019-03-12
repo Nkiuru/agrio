@@ -1,9 +1,13 @@
-<app-toolbar [(searchTerm)]="searchTerm" [showSearch]=true [showBackButton]=true [focusOnSearch]="focusOnSearch"></app-toolbar>
+<app-toolbar [(searchTerm)]="searchTerm"
+             [showSearch]=true
+             [showBackButton]=true
+             [focusOnSearch]="focusOnSearch"
+             (searchTermChange)="filterPosts()"></app-toolbar>
 
 <ion-content padding color="primary">
   <app-media-item-card
           *ngFor="let post of postArray"
           [postId]="post.file_id"
-          [tagItem]="true">
+          [tagItem]="hasTag">
   </app-media-item-card>
 </ion-content>
