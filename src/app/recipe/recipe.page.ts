@@ -110,6 +110,10 @@ export class RecipePage implements OnInit {
     this.description.content.steps.splice(index, 1);
   }
 
+  goBack() {
+    this.router.navigate(['tabs/profile']).catch();
+  }
+
   async showToast(message: string) {
     const toast = await this.toast.create({
       message,

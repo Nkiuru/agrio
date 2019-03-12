@@ -126,6 +126,10 @@ export class StatusUpdatePage implements OnInit {
     return this.title.length > 0;
   }
 
+  goBack() {
+    this.router.navigate(['tabs/profile']).catch();
+  }
+
   async showToast(message: string) {
     const toast = await this.toast.create({
       message,
