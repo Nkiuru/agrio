@@ -12,6 +12,9 @@
 
 <ion-content>
   <img
+    *ngIf="
+      postMeta.postType === type.picture || postMeta.postType === type.recipe
+    "
     class="image"
     [ngStyle]="{
       'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
@@ -79,9 +82,32 @@
       </h2>
     </ion-text>
 
+    <!-- if post type reicpe show incredients and steps -->
+
+    <!-- INCREDIENTS -->
+    <section class="ingredients-section" *ngIf="postMeta.postType === type.recipe">
+      <p class="title">Ingredients</p>
+      <div class="ingredient-row" *ngFor="let ingredient of postMeta.content.ingredients">
+        <span class="amount">
+          <span>{{ ingredient.amount }}</span>
+          <span>{{ ingredient.unit }}</span>
+        </span>
+        <span>{{ ingredient.ingredient }}</span>
+      </div>
+    </section>
+
+    <section class="steps-section" *ngIf="postMeta.postType === type.recipe">
+      <p class="title">Steps</p>
+      <div class="step-row" *ngFor="let step of postMeta.content.steps; let i = index">
+        <p class="step-number">{{ i + 1 }}</p>
+        <p class="step">{{ step.text }}</p>
+      </div>
+    </section>
+
+    <p class="description-title" *ngIf="postMeta.postType === type.recipe">Description</p>
     <ion-text color="text">
       <p class="media-description">
-        {{ post.description ? post.description : 'No description' }}
+        {{ postMeta.content.realDescription || 'no description' }}
       </p>
     </ion-text>
 

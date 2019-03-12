@@ -32,6 +32,75 @@
     font-weight: 400;
   }
 
+  .ingredients-section {
+    margin-top: 32px;
+
+    .title {
+      margin: 0;
+      color: var(--ion-color-title);
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .ingredient-row {
+      color: var(--ion-color-text);
+      display: flex;
+      margin-top: 24px;
+      font-size: 16px;
+      font-weight: 400;
+
+      .amount {
+        flex-basis: 100px;
+        margin-left: 8px;
+      }
+
+      .amount span:nth-child(2) {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  .steps-section {
+    margin-top: 32px;
+
+    .title {
+      margin: 0;
+      color: var(--ion-color-title);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+
+      .step-number {
+        margin: 0;
+        border: 1px solid;
+        box-sizing: content-box;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        text-align: center;
+        line-height: 39px;
+      }
+
+      .step {
+        color: var(--ion-color-text);
+        margin: 0;
+        margin-left: 16px;
+      }
+    }
+  }
+
+  .description-title {
+    margin: 0;
+    margin-top: 32px;
+    color: var(--ion-color-title);
+    font-size: 16px;
+    font-weight: 500;
+  }
+
   .media-description {
     margin-top: 16px;
   }
