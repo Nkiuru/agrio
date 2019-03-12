@@ -35,23 +35,23 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.media.initData();
 
-    const lazyLoadPosts = target => {
-      const io = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if ( entry.isIntersecting ) {
-            console.log('showing spinner');
-            this.showSpinner = true;
-            this.media.nextPostsSegment();
-          } else {
-            console.log('hiding spinner');
-            this.showSpinner = false;
-          }
-        });
-      });
-      io.observe(target);
-    };
+    // const lazyLoadPosts = target => {
+    //   const io = new IntersectionObserver((entries, observer) => {
+    //     entries.forEach(entry => {
+    //       if ( entry.isIntersecting ) {
+    //         console.log('showing spinner');
+    //         this.showSpinner = true;
+    //         this.media.nextPostsSegment();
+    //       } else {
+    //         console.log('hiding spinner');
+    //         this.showSpinner = false;
+    //       }
+    //     });
+    //   });
+    //   io.observe(target);
+    // };
 
-    lazyLoadPosts(this.loadTrigger.nativeElement);
+    // lazyLoadPosts(this.loadTrigger.nativeElement);
   }
 
   doRefresh(event) {
