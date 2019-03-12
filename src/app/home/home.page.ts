@@ -3,6 +3,7 @@ import { Platform, ToastController, Events } from '@ionic/angular';
 import { MediaService } from '../media.service';
 import { Post } from '../interfaces/post';
 import { EVENT_MEDIA_ARRAY_UPDATE } from '../app-constants';
+import { Environment } from '@ionic-native/google-maps';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +31,9 @@ export class HomePage implements OnInit, OnDestroy {
     event.subscribe(EVENT_MEDIA_ARRAY_UPDATE, array => {
       this.postArray = array;
     });
+    if (this.platform.is('hybrid')) {
+      Environment.setBackgroundColor('#014434');
+    }
   }
 
   ngOnInit() {
@@ -55,6 +59,9 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   doRefresh(event) {
+    if (this.platform.is('hybrid')) {
+      Environment.setBackgroundColor('#014434');
+    }
     console.log('Begin async operation');
 
     this.media.initData();
