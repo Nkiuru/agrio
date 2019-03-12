@@ -32,7 +32,7 @@ export class RecipePage implements OnInit {
       postType: RECIPE_POST,
       content: {
         ingredients: [{ amount: 0, ingredient: '', unit: '' }],
-        steps: [''],
+        steps: [{text: ''}],
         realDescription: '',
       }
     };
@@ -103,7 +103,7 @@ export class RecipePage implements OnInit {
   }
 
   addStep() {
-    this.description.content.steps.push('');
+    this.description.content.steps.push({ text: '' });
   }
 
   removeStep(index) {

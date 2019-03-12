@@ -73,7 +73,7 @@
     <div *ngFor="let step of description.content.steps;let i = index" [attr.data-index]="i">
       <ion-item>
         <ion-label color="primary" position="floating">Step {{ i + 1 }}</ion-label>
-        <ion-textarea type="text" [(ngModel)]="step" required></ion-textarea>
+        <ion-textarea type="text" [(ngModel)]="step.text" required></ion-textarea>
         <ion-fab-button slot="end" class="clear" (click)="removeStep(i)">
           <ion-icon name="close" color="danger"></ion-icon>
         </ion-fab-button>

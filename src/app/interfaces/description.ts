@@ -12,6 +12,8 @@ export interface Description {
         unit: string,
         ingredient: string
       }],
-    steps?: string[],
+    steps?: [{
+      text: string,
+    }],
   };
 }
