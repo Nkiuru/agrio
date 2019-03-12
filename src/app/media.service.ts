@@ -42,12 +42,12 @@ export class MediaService {
   }
 
   initData() {
-    const postsData = this.http.get<Post[]>(API_MEDIA, this.mediaParams(0, this.limit));
+    const postsData = this.http.get<Post[]>(API_TAGS + 'agrio');
     const profilePicData = this.http.get<Post[]>(API_TAGS + 'profile');
 
     forkJoin([postsData, profilePicData]).subscribe(resList => {
       console.log('Posts data: ', resList[0]);
-      this.postsArray = resList[0];
+      this.postsArray = resList[0].reverse();
       this.profilePicArray = resList[1];
 
       this.completeDetailsFetched = 0;
