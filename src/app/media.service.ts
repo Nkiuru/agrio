@@ -193,7 +193,7 @@ export class MediaService {
         promises.push(this.http.get(API_MEDIA + post.file_id, this.requestToken()).toPromise());
       });
       Promise.all(promises).then(data => {
-        this.likedPostsArray = data;
+        this.likedPostsArray = data.reverse();
         this.likedPostsArray.forEach(post => {
           this.getCompleteDataForPost(post.file_id, post.user_id, false, true);
         });
@@ -204,7 +204,7 @@ export class MediaService {
   initTagPosts(tag: string) {
     this.http.get<Post[]>(API_TAGS + tag, this.requestToken()).subscribe((data) => {
       console.log(data);
-      this.tagPostsArray = data;
+      this.tagPostsArray = data.reverse();
       this.completeDetailsFetchedForTags = 0;
       this.tagPostsArray.forEach((post) => {
         this.getCompleteDataForPost(post.file_id, post.user_id, false, false, true);
@@ -315,7 +315,7 @@ export class MediaService {
 
     this.http.get<Post[]>(API_MEDIA_USER + userid, this.requestToken()).subscribe(res => {
       console.log('Init profile data: ', res);
-      this.profilePostsArray = res;
+      this.profilePostsArray = res.reverse();
       this.completeDetailsFetchedForProfile = 0;
       this.profilePostsArray.forEach(post => {
         this.getCompleteDataForPost(post.file_id, post.user_id, true);
