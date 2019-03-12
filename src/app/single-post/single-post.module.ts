@@ -9,6 +9,7 @@ import { SinglePostPage } from './single-post.page';
 import { PipesModule } from '../pipes/pipes.module';
 import { CommentComponent } from './comment/comment.component';
 import { PostLocationModule } from '../components/post-location/post-location.module';
+import { PopoverComponent } from './popover/popover.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [PopoverComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -26,6 +28,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PostLocationModule,
   ],
-  declarations: [SinglePostPage, CommentComponent]
+  declarations: [SinglePostPage, CommentComponent, PopoverComponent]
 })
 export class SinglePostPageModule {}
