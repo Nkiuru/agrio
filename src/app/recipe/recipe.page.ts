@@ -4,6 +4,7 @@ import { UploadService } from '../upload.service';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RECIPE_POST } from '../app-constants';
+import { MediaService } from '../media.service';
 
 @Component({
   selector: 'app-recipe',
@@ -24,7 +25,8 @@ export class RecipePage implements OnInit {
     private loadingCtrl: LoadingController,
     private toast: ToastController,
     private router: Router,
-    private nav: NavController) {
+    private nav: NavController,
+    private media: MediaService) {
   }
 
   ngOnInit() {
@@ -81,8 +83,9 @@ export class RecipePage implements OnInit {
           promises.push(this.upload.addTag(id, tg).toPromise());
         });
         Promise.all(promises).then(() => {
+          this.media.initData();
           this.loading.dismiss().catch((err) => console.log(err));
-          this.showToast('Status update added!').then(() => {
+          this.showToast('Recipe added!').then(() => {
             this.nav.pop();
             this.router.navigate(['tabs/home']);
           }).catch(err => console.log(err));

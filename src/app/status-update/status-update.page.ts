@@ -5,6 +5,7 @@ import { LoadingController, NavController, ToastController } from '@ionic/angula
 import { PICTURE_POST, PLACEHOLDER, STATUS_POST } from '../app-constants';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { MediaService } from '../media.service';
 
 @Component({
   selector: 'app-status-update',
@@ -28,7 +29,8 @@ export class StatusUpdatePage implements OnInit {
     private toast: ToastController,
     private router: Router,
     private geolocation: Geolocation,
-    private nav: NavController) {
+    private nav: NavController,
+    private media: MediaService) {
   }
 
   ngOnInit() {
@@ -109,6 +111,7 @@ export class StatusUpdatePage implements OnInit {
           promises.push(this.upload.addTag(id, tg).toPromise());
         });
         Promise.all(promises).then(() => {
+          this.media.initData();
           this.loading.dismiss().catch((err) => console.log(err));
           this.showToast('Status update added!').then(() => {
             this.nav.pop();
