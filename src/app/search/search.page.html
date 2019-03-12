@@ -1,0 +1,9 @@
+<app-toolbar [(searchTerm)]="searchTerm" [showSearch]=true [showBackButton]=true></app-toolbar>
+
+<ion-content padding color="primary">
+  <app-media-item-card
+          *ngFor="let post of postArray"
+          [postId]="post.file_id"
+          [tagItem]="true">
+  </app-media-item-card>
+</ion-content>

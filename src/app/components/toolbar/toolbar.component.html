@@ -1,8 +1,12 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-buttons slot="start">
+        <ion-buttons slot="start" *ngIf="!showBackButton">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
+        <ion-buttons slot="start" *ngIf="showBackButton">
+            <ion-button (click)="goBack()">
+                <ion-icon name="arrow-back" style="color: #74D0BB" slot="icon-only"></ion-icon>
+            </ion-button>        </ion-buttons>
         <ion-buttons>
             <ion-img class="title" src="../../assets/icon/agrioToolbar.svg"></ion-img>
         </ion-buttons>
@@ -10,7 +14,18 @@
             <ion-img class="icon" src="../../assets/icon/agrioIconToolbar.svg"></ion-img>
         </ion-buttons>
     </ion-toolbar>
-    <div class="searchContainer" *ngIf="showSearch">
+    <div class="searchContainer" *ngIf="showSearch && isSearchPage">
+        <ion-input #search color="primary-shade" type="text" placeholder="search" [(ngModel)]="searchTerm"
+                   (ngModelChange)="update()">
+            <ion-icon name="search"></ion-icon>
+        </ion-input>
+    </div>
+    <div class="searchContainer" *ngIf="showSearch && !isSearchPage && !mapSearch" (click)="openSearchPage()">
+        <ion-input color="primary-shade" type="text" placeholder="search" disabled>
+            <ion-icon name="search"></ion-icon>
+        </ion-input>
+    </div>
+    <div class="searchContainer" *ngIf="showSearch && mapSearch">
         <ion-input color="primary-shade" type="text" placeholder="search" [(ngModel)]="searchTerm"
                    (ngModelChange)="update()">
             <ion-icon name="search"></ion-icon>

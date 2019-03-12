@@ -1,4 +1,4 @@
-<app-toolbar [(searchTerm)]="search" [showSearch]=true (searchTermChange)="filterMarkers()"></app-toolbar>
+<app-toolbar [(searchTerm)]="search" [showSearch]=true (searchTermChange)="filterMarkers()" [mapSearch]=true ></app-toolbar>
 
 <ion-content padding style="background-color: #005944">
     <ion-list *ngIf="search && search.length > 0">

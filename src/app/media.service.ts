@@ -13,8 +13,8 @@ import {
   EVENT_PROFILE_PIC_ARRAY_UPDATE,
   API_MEDIA_USER,
   EVENT_USER_MEDIA_ARRAY_UPDATE,
-  API_FAVOURITES, 
-  EVENT_LIKED_ARRAY_UPDATE
+  API_FAVOURITES,
+  EVENT_LIKED_ARRAY_UPDATE, EVENT_TAG_ARRAY_UPDATE
 } from './app-constants';
 import { User } from './interfaces/user';
 import { forkJoin, Observable } from 'rxjs';
@@ -30,9 +30,11 @@ export class MediaService {
   private profilePostsArray: Post[];
   private profilePicArray: Post[];
   private likedPostsArray: Post[];
+  private tagPostsArray: Post[];
   private completeDetailsFetched = 0;
   private completeDetailsFetchedForProfile = 0;
   private completeDetailsFetchedForLikes = 0;
+  private completeDetailsFetchedForTags = 0;
 
   private limit = 5;
 
@@ -55,7 +57,7 @@ export class MediaService {
     });
   }
 
-  private getCompleteDataForPost(fileid: number, userid: number, profilePost = false, likedPost = false) {
+  private getCompleteDataForPost(fileid: number, userid: number, profilePost = false, likedPost = false, tagPost = false) {
 
     const userDetailsData = this.http.get<User>(API_USERS + userid, this.requestToken());
     const postLikesData = this.http.get<Favourites[]>(API_FAVOURITES + 'file/' + fileid);
@@ -122,6 +124,32 @@ export class MediaService {
           console.log('Updated liked posts array: ', this.likedPostsArray);
           this.event.publish(EVENT_LIKED_ARRAY_UPDATE, this.likedPostsArray);
         }
+      } else if (tagPost) {
+
+        let profilePic: any = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
+        if (!profilePic) {
+          profilePic = { filename: null };
+        }
+
+        const updatedPost = {
+          ...this.tagPostsArray.filter(post => post.file_id === fileid)[0],
+          ...resList[0],
+          profile_pic: profilePic.filename,
+          favourites: resList[1],
+          comments: resList[2],
+          tags: resList[3]
+        };
+
+        const i = this.tagPostsArray.findIndex(post => post.file_id === fileid);
+        this.tagPostsArray[i] = updatedPost;
+
+        // Check if all the missing data has been loaded into posts array
+        // and publish an event to update data in components
+        this.completeDetailsFetchedForTags++;
+        if (this.tagPostsArray.length === this.completeDetailsFetchedForTags) {
+          console.log('Updated tag posts array: ', this.tagPostsArray);
+          this.event.publish(EVENT_TAG_ARRAY_UPDATE, this.tagPostsArray);
+        }
       } else {
 
         let profilePic: any = this.profilePicArray.filter(pic => pic.user_id === userid)[0];
@@ -173,13 +201,24 @@ export class MediaService {
     });
   }
 
+  initTagPosts(tag: string) {
+    this.http.get<Post[]>(API_TAGS + tag, this.requestToken()).subscribe((data) => {
+      console.log(data);
+      this.tagPostsArray = data;
+      this.completeDetailsFetchedForTags = 0;
+      this.tagPostsArray.forEach((post) => {
+        this.getCompleteDataForPost(post.file_id, post.user_id, false, false, true);
+      });
+    });
+  }
+
   nextPostsSegment() {
     const start = this.postsArray.length;
     this.http
       .get<Post[]>(API_MEDIA, this.mediaParams(start, this.limit))
       .subscribe(
         res => {
-          
+
           console.log(res);
           this.postsArray.push(...res);
           res.forEach(post => {
@@ -338,6 +377,10 @@ export class MediaService {
 
   getLikedPostById(fileid: number) {
     return this.likedPostsArray.filter(post => post.file_id === fileid)[0];
+  }
+
+  getTagPostById(fileid: number) {
+    return this.tagPostsArray.filter(post => post.file_id === fileid)[0];
   }
 
   getProfilePicById(userid: number): string {

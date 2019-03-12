@@ -26,6 +26,8 @@ export class SinglePostPage implements OnInit, OnDestroy {
   postId: number;
   post: Post;
   profilePost: boolean;
+  likedPost: boolean;
+  tagPost: boolean;
   showMap = false;
   showCoordinates = false;
 
@@ -40,8 +42,6 @@ export class SinglePostPage implements OnInit, OnDestroy {
     private event: Events,
     private toast: ToastController,
   ) {
-    this.postId = +this.route.snapshot.paramMap.get('postid');
-    this.profilePost = this.route.snapshot.queryParamMap.get('profilePost') === 'true';
 
     this.event.subscribe(EVENT_SINGLE_MEDIA_UPDATE, updatedPostData => {
       if (updatedPostData) {
@@ -60,8 +60,16 @@ export class SinglePostPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.postId = +this.route.snapshot.paramMap.get('postid');
+    this.profilePost = this.route.snapshot.queryParamMap.get('profilePost') === 'true';
+    this.tagPost = this.route.snapshot.queryParamMap.get('tagPost') === 'true';
+    this.likedPost = this.route.snapshot.queryParamMap.get('likedPost') === 'true';
     if ( this.profilePost ) {
       this.post = this.media.getProfilePostById(this.postId);
+    } else if ( this.tagPost ) {
+      this.post = this.media.getTagPostById(this.postId);
+    } else if ( this.likedPost ) {
+      this.post = this.media.getLikedPostById(this.postId);
     } else {
       this.post = this.media.getPostById(this.postId);
     }

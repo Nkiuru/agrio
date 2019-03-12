@@ -16,11 +16,13 @@ export class MediaItemCardComponent implements OnInit {
   @Input() postId: number;
   @Input() profileItem: boolean;
   @Input() likedItem: boolean;
+  @Input() tagItem: boolean;
 
   uploadsUrl = API_UPLOADS;
   postImageUrl: string;
   postLiked: boolean;
   post: Post;
+  params = {};
 
   user: User = JSON.parse(localStorage.getItem('user'));
 
@@ -30,8 +32,19 @@ export class MediaItemCardComponent implements OnInit {
   ngOnInit() {
     if (this.profileItem) {
       this.post = this.media.getProfilePostById(this.postId);
+      this.params = {
+        profilePost: true
+      };
     } else if (this.likedItem) {
       this.post = this.media.getLikedPostById(this.postId);
+      this.params = {
+        likedPost: true
+      };
+    } else if (this.tagItem) {
+      this.post = this.media.getTagPostById(this.postId);
+      this.params = {
+        tagPost: true
+      };
     } else {
       this.post = this.media.getPostById(this.postId);
     }

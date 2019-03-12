@@ -5,7 +5,7 @@
       'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
     }"
     [routerLink]="['/single-post', post.file_id]"
-    [queryParams]="{profilePost: profileItem}"
+    [queryParams]="params"
     ></div>
 
   <section class="media-text-content">

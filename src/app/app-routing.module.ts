@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'upload/status', loadChildren: './status-update/status-update.module#StatusUpdatePageModule' },
   { path: 'upload/recipe', loadChildren: './recipe/recipe.module#RecipePageModule' },
   { path: 'liked-posts', loadChildren: './liked-posts/liked-posts.module#LikedPostsPageModule' },
+  { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
 ];
 
 @NgModule({

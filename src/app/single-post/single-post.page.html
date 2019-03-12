@@ -88,7 +88,9 @@
     <p class="timestamp">{{ post.time_added | moment }}</p>
 
     <ul>
-      <li class="tag" *ngFor="let tag of post.tags">{{ tag.tag }}</li>
+      <li class="tag" *ngFor="let tag of post.tags"
+          [routerLink]="['/search']"
+          [queryParams]="{tag: tag.tag}">{{ tag.tag }}</li>
     </ul>
 
     <section class="comments-section">
