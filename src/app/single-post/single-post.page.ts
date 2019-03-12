@@ -5,9 +5,11 @@ import { MediaService } from '../media.service';
 import { ActivatedRoute } from '@angular/router';
 import { API_UPLOADS, EVENT_SINGLE_MEDIA_UPDATE, RECIPE_POST, PICTURE_POST, STATUS_POST } from '../app-constants';
 import { User } from '../interfaces/user';
-import { Events, ToastController } from '@ionic/angular';
+import { Events, ToastController, PopoverController, LoadingController, NavController } from '@ionic/angular';
 import { PostLocationComponent } from '../components/post-location/post-location.component';
 import { Description } from '../interfaces/description';
+import { PopoverComponent } from './popover/popover.component';
+import { UploadService } from '../upload.service';
 
 @Component({
   selector: 'app-single-post',
@@ -47,6 +49,10 @@ export class SinglePostPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private event: Events,
     private toast: ToastController,
+    private popover: PopoverController,
+    private uploadService: UploadService,
+    private loading: LoadingController,
+    private navCtrl: NavController
   ) {
 
     this.event.subscribe(EVENT_SINGLE_MEDIA_UPDATE, updatedPostData => {
@@ -87,6 +93,39 @@ export class SinglePostPage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.statusBar.setToLight();
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popover.create({
+      component: PopoverComponent,
+      event: ev,
+      translucent: true
+    });
+
+    popover.onWillDismiss().then(event => {
+      if ( event.data === 'delete' ) {
+        console.log('TODO: delete post');
+        this.presentLoading();
+        this.uploadService.deleteProfilePic(this.post.file_id).subscribe(res => {
+          console.log(res);
+          this.media.initData();
+          setTimeout(() => {
+            this.loading.dismiss();
+            this.navCtrl.back();
+          }, 500);
+        });
+      }
+    });
+
+    return await popover.present();
+  }
+
+  async presentLoading() {
+    const loading = await this.loading.create({
+      message: 'Deleting...',
+    });
+    await loading.present();
+
   }
 
   getProfilePic(): string {
