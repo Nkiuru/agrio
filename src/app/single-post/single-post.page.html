@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content>
-  <img
+  <div
     *ngIf="
       postMeta.postType === type.picture || postMeta.postType === type.recipe
     "
@@ -19,7 +19,9 @@
     [ngStyle]="{
       'background-image': 'url(' + (post.filename | imageSize: 'large') + ')'
     }"
-  />
+  >
+  <img *ngIf="postMeta.postType === type.recipe" class="recipe-label" src="../../assets/svg/recipe_icon.svg">
+</div>
   <app-post-location *ngIf="showMap" [post]="post"></app-post-location>
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">
