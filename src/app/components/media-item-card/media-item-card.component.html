@@ -9,7 +9,9 @@
     }"
     [routerLink]="['/single-post', post.file_id]"
     [queryParams]="params"
-  ></div>
+  >
+  <img *ngIf="postMeta.postType === type.recipe" class="recipe-label" src="../../../assets/svg/recipe_icon.svg">
+</div>
 
   <section class="media-text-content">
     <section class="user-info-post-actions-wrapper">

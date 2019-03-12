@@ -1,10 +1,17 @@
 .media-item-card {
   .image {
+    position: relative;
     width: 100%;
     padding-top: 100%;
     background-color: #9bd2c5;
     background-size: cover;
     background-position: center center;
+
+    .recipe-label {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
   }
 
   .media-text-content {
