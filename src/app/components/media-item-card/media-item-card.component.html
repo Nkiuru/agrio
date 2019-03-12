@@ -65,16 +65,14 @@
       </span>
     </section>
 
-    <ion-text color="title">
+    <ion-text color="title" [routerLink]="['/single-post', post.file_id]" [queryParams]="params">
       <h2 class="media-title">
         {{ post.title ? post.title : 'No post title' }}
       </h2>
     </ion-text>
 
-    <ion-text color="text">
+    <ion-text color="text" [routerLink]="['/single-post', post.file_id]" [queryParams]="params">
       <p
-        [routerLink]="['/single-post', post.file_id]"
-        [queryParams]="params"
         class="media-description"
         style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
       >

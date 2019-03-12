@@ -8,6 +8,7 @@ import {
   EVENT_USER_MEDIA_ARRAY_UPDATE
 } from '../../app-constants';
 import { User } from '../../interfaces/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-posts',
@@ -18,13 +19,17 @@ export class UserPostsComponent implements OnInit, OnDestroy {
   @Input() user: User;
   postArray: Post[];
 
-  constructor(private media: MediaService, private event: Events) {
+  constructor(private media: MediaService, private event: Events, private router: Router) {
     event.subscribe(EVENT_USER_MEDIA_ARRAY_UPDATE, array => {
       this.postArray = array;
     });
   }
 
   ngOnInit() {
+    const userPage = this.router.isActive('user', false);
+    if (userPage) {
+      this.media.initProfileData(this.user.user_id);
+    }
   }
 
   ngOnDestroy() {
