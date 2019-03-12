@@ -35,7 +35,7 @@
       <ion-input type="text" [(ngModel)]="title" required></ion-input>
     </div>
     <div class="card-header">
-      <h3>Description</h3>
+      <h3>Description (optional)</h3>
       <ion-textarea [(ngModel)]="description.content.realDescription" required></ion-textarea>
     </div>
     <div class="card-header inline">
@@ -55,11 +55,11 @@
       <ion-item lines="none">
         <ion-item style="padding-right: 4px">
           <ion-label type="number" color="primary" position="floating">Amount</ion-label>
-          <ion-input [(ngModel)]="ingredient.amount" min="1" required></ion-input>
+          <ion-input [(ngModel)]="ingredient.amount" min="0"></ion-input>
         </ion-item>
         <ion-item style="padding-left: 4px">
           <ion-label type="text" color="primary" position="floating">Unit</ion-label>
-          <ion-input [(ngModel)]="ingredient.unit" required></ion-input>
+          <ion-input [(ngModel)]="ingredient.unit"></ion-input>
         </ion-item>
       </ion-item>
     </div>

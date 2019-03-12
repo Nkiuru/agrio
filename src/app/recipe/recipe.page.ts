@@ -120,7 +120,7 @@ export class RecipePage implements OnInit {
   }
 
   isValid() {
-    return this.fileUploaded && this.title.length > 0 && this.description.content.realDescription.length > 0;
+    return this.fileUploaded && this.title.length > 2;
   }
 
 }
