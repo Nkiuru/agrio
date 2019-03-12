@@ -124,6 +124,7 @@ export class MapPage implements OnInit {
       tilt: 30
     });
     place.showInfoWindow();
+    this.filteredMarkers.length = 0;
   }
 
   filterMarkers() {

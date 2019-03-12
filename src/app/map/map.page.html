@@ -1,6 +1,6 @@
 <app-toolbar [(searchTerm)]="search" [showSearch]=true (searchTermChange)="filterMarkers()" [mapSearch]=true ></app-toolbar>
 
-<ion-content padding style="background-color: #005944">
+<ion-content style="background-color: #005944">
     <ion-list *ngIf="search && search.length > 0">
         <ion-item @itemState *ngFor="let place of filteredMarkers">
             <ion-label>
@@ -10,7 +10,6 @@
 
             <ion-button (click)="show(place)" slot="end">Show</ion-button>
         </ion-item>
-        <p *ngIf="filteredMarkers.length === 0">No matches</p>
     </ion-list>
     <div id="map_canvas">
         <ion-fab-button (click)="onButtonClick()" size="small">
