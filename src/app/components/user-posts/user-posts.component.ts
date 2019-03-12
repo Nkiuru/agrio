@@ -25,7 +25,6 @@ export class UserPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.media.initProfileData(this.user.user_id);
   }
 
   ngOnDestroy() {
